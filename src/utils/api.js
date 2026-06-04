@@ -6,8 +6,8 @@ export async function callClaude(prompt, system = '') {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       model: MODEL,
-      max_tokens: 2000,
-      system: system || 'You are an expert instructional designer.',
+      max_tokens: 4000,
+      system: 'You are an expert instructional designer. You MUST respond with ONLY a valid JSON object. No markdown, no backticks, no explanation. Just pure JSON.',
       messages: [{ role: 'user', content: prompt }],
     }),
   });
@@ -24,43 +24,20 @@ export async function callClaude(prompt, system = '') {
 }
 
 export function buildPrompt({ topic, audience, level, duration, includes, notes }) {
-  return `Create a complete professional course curriculum.
+  return `Create a complete professional course curriculum for: ${topic}
 
-TOPIC: ${topic}
 AUDIENCE: ${audience || 'General learners'}
 LEVEL: ${level}
 DURATION: ${duration}
 CONTENT TYPES: ${includes}
 ${notes ? `NOTES: ${notes}` : ''}
 
-Return ONLY valid JSON (no markdown, no backticks):
-{
-  "title": "Course Title",
-  "tagline": "One compelling outcome sentence",
-  "totalHours": 12,
-  "totalLessons": 28,
-  "modules": [
-    {
-      "id": 1,
-      "title": "Module Title",
-      "objective": "By end of module, students will...",
-      "duration": "2 hours",
-      "lessons": [
-        {
-          "id": "1.1",
-          "title": "Lesson Title",
-          "type": "video",
-          "duration": "15 min",
-          "description": "What this lesson covers"
-        }
-      ]
-    }
-  ],
-  "learningOutcomes": ["Outcome 1", "Outcome 2", "Outcome 3"],
-  "prerequisites": ["Prereq 1"],
-  "targetAudience": "Who this is for"
-}
+Respond with ONLY this JSON structure, no other text:
+{"title":"Course Title","tagline":"One compelling outcome sentence","totalHours":12,"totalLessons":28,"modules":[{"id":1,"title":"Module Title","objective":"By end of module students will...","duration":"2 hours","lessons":[{"id":"1.1","title":"Lesson Title","type":"video","duration":"15 min","description":"What this covers"}]}],"learningOutcomes":["Outcome 1","Outcome 2","Outcome 3"],"prerequisites":["Prereq 1"],"targetAudience":"Who this is for"}
 
-Types: video, quiz, assignment, reading, project, live
-Generate 5-7 modules with 3-6 lessons each. Be specific and practical.`;
+Rules:
+- Generate 5-7 modules with 4-6 lessons each
+- Lesson types: video, quiz, assignment, reading, project, live
+- Be specific to the topic: ${topic}
+- No markdown, no backticks, pure JSON only`;
 }
