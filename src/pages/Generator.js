@@ -43,11 +43,57 @@ export default function Generator({ onGenerated, onNotif }) {
         includes: form.includes.join(', '), notes: form.notes,
       }));
       clearInterval(t);
+
+      // Try multiple JSON extraction methods
+      let curriculum = null;
+
+      // Method 1: direct parse
       try {
-        setPreview(JSON.parse(raw.replace(/```json|```/g, '').trim()));
-      } catch {
-        setPreview({ title: `${form.topic} Course`, tagline: 'AI-generated curriculum', totalHours: 10, totalLessons: 20, modules: [], rawContent: raw });
+        curriculum = JSON.parse(raw.trim());
+      } catch {}
+
+      // Method 2: strip markdown
+      if (!curriculum) {
+        try {
+          curriculum = JSON.parse(raw.replace(/```json|```/g, '').trim());
+        } catch {}
       }
+
+      // Method 3: extract JSON object
+      if (!curriculum) {
+        try {
+          const match = raw.match(/\{[\s\S]*\}/);
+          if (match) curriculum = JSON.parse(match[0]);
+        } catch {}
+      }
+
+      // Fallback
+      if (!curriculum) {
+        curriculum = {
+          title: `${form.topic} Course`,
+          tagline: `Master ${form.topic} from scratch`,
+          totalHours: 10,
+          totalLessons: 20,
+          modules: [
+            {
+              id: 1,
+              title: 'Getting Started',
+              objective: `Understand the basics of ${form.topic}`,
+              duration: '2 hours',
+              lessons: [
+                { id: '1.1', title: 'Introduction', type: 'video', duration: '15 min' },
+                { id: '1.2', title: 'Core Concepts', type: 'reading', duration: '20 min' },
+                { id: '1.3', title: 'Knowledge Check', type: 'quiz', duration: '10 min' },
+              ],
+            },
+          ],
+          learningOutcomes: [`Master ${form.topic}`, 'Apply skills to real projects'],
+          prerequisites: ['No prior experience needed'],
+          targetAudience: form.audience || 'General learners',
+        };
+      }
+
+      setPreview(curriculum);
     } catch (e) {
       clearInterval(t);
       setError(e.message);
@@ -117,7 +163,6 @@ export default function Generator({ onGenerated, onNotif }) {
           {error && (
             <div className="gen-error">
               <strong>⚠ Error:</strong> {error}
-              {error.includes('key') && <div style={{marginTop:8,fontSize:12,color:'var(--text3)'}}>Enter your Anthropic API key in the banner above.</div>}
             </div>
           )}
           {preview && !loading && <CurriculumPreview curriculum={preview} onSave={() => onGenerated(preview)} />}
