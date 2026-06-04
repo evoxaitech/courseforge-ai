@@ -37,7 +37,7 @@
 .logo-icon {
     width: 30px;
     height: 30px;
-    background: linear-gradient(135deg, #2ABFB8 0%, #1EA898 100%);
+    background: linear-gradient(135deg, var(--accent) 0%, #B084FF 100%);
     border-radius: var(--r-md);
     display: flex;
     align-items: center;
