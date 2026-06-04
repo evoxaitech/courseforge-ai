@@ -221,6 +221,7 @@
     background: #cc0000;
     transform: translateY(-1px);
 }
+
 /* Lesson Type Badges */
 .lesson-type {
     font-size: 11px;
@@ -235,13 +236,9 @@
 }
 
 .lesson-type.video {
-    background: rgba(239, 68, 68, 0.12);
-    color: #fca5a5;
-    border: 1px solid rgba(239, 68, 68, 0.25);
-}
-
-.lesson-type.video::before {
-    content: '▶ ';
+    background: rgba(139, 92, 246, 0.15);
+    color: #a78bfa;
+    border: 1px solid rgba(139, 92, 246, 0.3);
 }
 
 .lesson-type.lab,

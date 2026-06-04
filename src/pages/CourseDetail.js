@@ -132,7 +132,9 @@ export default function CourseDetail({ course, onBack, onNotif }) {
                         <span className="lesson-id">{l.id || `${i + 1}.${j + 1}`}</span>
                         <span className="lesson-title">{l.title}</span>
                         {l.duration && <span className="lesson-dur">{l.duration}</span>}
-                        <span className={`lesson-type ${l.type}`}>{l.type}</span>
+                        <span className={`lesson-type ${l.type}`}>
+                          {l.type === 'video' ? '📝 Text + Video' : l.type}
+                        </span>
                         <span className="lesson-arrow">→</span>
                       </div>
                     ))}
