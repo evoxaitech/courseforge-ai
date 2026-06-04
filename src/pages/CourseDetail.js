@@ -287,7 +287,6 @@ export default function CourseDetail({ course, onBack, onNotif }) {
                 </div>
               )}
 
-              {/* QUIZ MODE */}
               {lessonContent && !loading && isQuiz && (
                 <div className="quiz-container">
                   {submitted && (
@@ -315,7 +314,9 @@ export default function CourseDetail({ course, onBack, onNotif }) {
                           return (
                             <div key={oi} className={cls} onClick={() => handleAnswer(qi, oi)}>
                               <span className="option-letter">{String.fromCharCode(65 + oi)}</span>
-                              {opt}
+                              <span className="option-text">{opt}</span>
+                              {submitted && oi === q.correct && <span className="option-icon correct-icon">✓</span>}
+                              {submitted && answers[qi] === oi && oi !== q.correct && <span className="option-icon wrong-icon">✗</span>}
                             </div>
                           );
                         })}
@@ -364,7 +365,6 @@ export default function CourseDetail({ course, onBack, onNotif }) {
                 </div>
               )}
 
-              {/* LESSON MODE */}
               {lessonContent && !loading && !isQuiz && (
                 <>
                   <div className="content-section">
