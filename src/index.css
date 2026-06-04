@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 *,
 *::before,
@@ -9,36 +9,46 @@
 }
 
 :root {
-    --bg: #08080E;
-    --surface: #0F0F18;
-    --surface2: #14141F;
-    --surface3: #1A1A28;
-    --border: rgba(255, 255, 255, 0.06);
-    --border2: rgba(255, 255, 255, 0.1);
-    --text: #F0EEFF;
-    --text2: #9B97B8;
-    --text3: #6B6789;
-    --text4: #4A4668;
-    --accent: #7C5CFC;
-    --accent2: #A78BFA;
-    --accent3: #C4B5FD;
-    --accent-h: #6B4EE6;
-    --accent-glow: rgba(124, 92, 252, 0.3);
-    --green: #10D9A0;
-    --green-bg: rgba(16, 217, 160, 0.08);
-    --amber: #F59E0B;
-    --amber-bg: rgba(245, 158, 11, 0.08);
-    --blue: #38BDF8;
-    --blue-bg: rgba(56, 189, 248, 0.08);
-    --red: #EF4444;
-    --red-bg: rgba(239, 68, 68, 0.08);
-    --font-display: 'Syne', sans-serif;
-    --font-body: 'DM Sans', sans-serif;
-    --r-sm: 8px;
-    --r-md: 12px;
-    --r-lg: 16px;
-    --r-xl: 24px;
-    --trans: all 0.2s ease;
+    --bg: #07070C;
+    --surface: #0E0E16;
+    --surface2: #13131C;
+    --surface3: #191925;
+    --surface4: #1F1F2E;
+    --border: rgba(255, 255, 255, 0.055);
+    --border2: rgba(255, 255, 255, 0.09);
+    --border3: rgba(255, 255, 255, 0.13);
+    --text: #EDEAF8;
+    --text2: #8E8AAA;
+    --text3: #5C5878;
+    --text4: #3C3858;
+    --accent: #7B5CF5;
+    --accent2: #9D7FFF;
+    --accent3: #C4B0FF;
+    --accent-h: #6A4EE0;
+    --accent-glow: rgba(123, 92, 245, 0.28);
+    --accent-glow2: rgba(123, 92, 245, 0.08);
+    --green: #0ECF96;
+    --green-bg: rgba(14, 207, 150, 0.08);
+    --amber: #F0920A;
+    --amber-bg: rgba(240, 146, 10, 0.08);
+    --blue: #3AAFE8;
+    --blue-bg: rgba(58, 175, 232, 0.08);
+    --red: #E84040;
+    --red-bg: rgba(232, 64, 64, 0.08);
+    --pink: #E040A0;
+    --pink-bg: rgba(224, 64, 160, 0.08);
+    --font-display: 'Plus Jakarta Sans', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --r-sm: 6px;
+    --r-md: 10px;
+    --r-lg: 14px;
+    --r-xl: 18px;
+    --r-2xl: 24px;
+    --trans: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 8px 36px rgba(0, 0, 0, 0.6);
+    --shadow-accent: 0 4px 24px rgba(123, 92, 245, 0.22);
 }
 
 html,
@@ -71,7 +81,7 @@ a {
 }
 
 ::-webkit-scrollbar {
-    width: 5px;
+    width: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -79,10 +89,10 @@ a {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--surface3);
+    background: var(--surface4);
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--border2);
+    background: var(--border3);
 }
