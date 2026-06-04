@@ -23,11 +23,51 @@ Respond ONLY with a JSON object (no markdown, no backticks):
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 1000,
+      max_tokens: 1500,
       messages: [{ role: 'user', content: prompt }]
     })
   });
+  const data = await response.json();
+  const text = data.content?.[0]?.text || '';
+  const clean = text.replace(/```json|```/g, '').trim();
+  return JSON.parse(clean);
+}
 
+async function generateQuiz(courseTitle, moduleTitle, lessonTitle) {
+  const prompt = `You are an expert educator. Generate a completely fresh quiz every time for:
+
+Course: ${courseTitle}
+Module: ${moduleTitle}
+Lesson: ${lessonTitle}
+Random seed: ${Math.random()}
+
+Respond ONLY with a JSON object (no markdown, no backticks):
+{
+  "mcqs": [
+    {
+      "question": "Question text?",
+      "options": ["Option A", "Option B", "Option C", "Option D"],
+      "correct": 0,
+      "explanation": "Why this answer is correct"
+    }
+  ],
+  "shortQuestion": {
+    "question": "A thought-provoking short answer question worth 5 marks about this topic",
+    "sampleAnswer": "A detailed sample answer covering all 5 key points needed for full marks"
+  }
+}
+
+Generate exactly 10 MCQ questions. Make them challenging but fair. Generate completely different questions each time. All content must be in English only.`;
+
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 2000,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
   const data = await response.json();
   const text = data.content?.[0]?.text || '';
   const clean = text.replace(/```json|```/g, '').trim();
@@ -40,7 +80,12 @@ export default function CourseDetail({ course, onBack, onNotif }) {
   const [lessonContent, setLessonContent] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const cacheRef = useRef({});
+  const [isQuiz, setIsQuiz] = useState(false);
+  const [answers, setAnswers] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+  const [moduleRatings, setModuleRatings] = useState({});
+  const [shortAnswer, setShortAnswer] = useState('');
+  const [showSampleAnswer, setShowSampleAnswer] = useState(false);
 
   const toggle = i => setExpanded(prev => {
     const n = new Set(prev);
@@ -49,24 +94,24 @@ export default function CourseDetail({ course, onBack, onNotif }) {
   });
 
   const openLesson = async (lesson, moduleTitle) => {
-    const cacheKey = `${moduleTitle}__${lesson.title}`;
+    const quizMode = lesson.type === 'quiz';
     setSelectedLesson({ ...lesson, moduleTitle });
+    setIsQuiz(quizMode);
+    setAnswers({});
+    setSubmitted(false);
+    setShortAnswer('');
+    setShowSampleAnswer(false);
     setError(null);
-
-    if (cacheRef.current[cacheKey]) {
-      setLessonContent(cacheRef.current[cacheKey]);
-      setLoading(false);
-      return;
-    }
-
     setLessonContent(null);
     setLoading(true);
+
     try {
-      const content = await generateLessonContent(course.title, moduleTitle, lesson.title);
-      cacheRef.current[cacheKey] = content;
+      const content = quizMode
+        ? await generateQuiz(course.title, moduleTitle, lesson.title)
+        : await generateLessonContent(course.title, moduleTitle, lesson.title);
       setLessonContent(content);
     } catch (err) {
-      setError('Content generate nahi ho saka. Dobara try karo.');
+      setError('Content could not be generated. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -76,11 +121,38 @@ export default function CourseDetail({ course, onBack, onNotif }) {
     setSelectedLesson(null);
     setLessonContent(null);
     setError(null);
+    setAnswers({});
+    setSubmitted(false);
+    setIsQuiz(false);
+    setShortAnswer('');
+    setShowSampleAnswer(false);
   };
 
   const openYouTube = (query) => {
     const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}&sp=CAASAhAB`;
     window.open(url, '_blank');
+  };
+
+  const handleAnswer = (qIndex, optIndex) => {
+    if (submitted) return;
+    setAnswers(prev => ({ ...prev, [qIndex]: optIndex }));
+  };
+
+  const submitQuiz = () => {
+    if (Object.keys(answers).length < lessonContent.mcqs.length) {
+      alert(`Please answer all questions first! (${Object.keys(answers).length}/${lessonContent.mcqs.length})`);
+      return;
+    }
+    setSubmitted(true);
+  };
+
+  const getMCQScore = () => {
+    if (!lessonContent?.mcqs) return 0;
+    return lessonContent.mcqs.filter((q, i) => answers[i] === q.correct).length;
+  };
+
+  const rateModule = (moduleTitle, stars) => {
+    setModuleRatings(prev => ({ ...prev, [moduleTitle]: stars }));
   };
 
   return (
@@ -133,11 +205,27 @@ export default function CourseDetail({ course, onBack, onNotif }) {
                         <span className="lesson-title">{l.title}</span>
                         {l.duration && <span className="lesson-dur">{l.duration}</span>}
                         <span className={`lesson-type ${l.type}`}>
-                          {l.type === 'video' ? '📝 Text + Video' : l.type}
+                          {l.type === 'video' ? '📝 Text + Video' : l.type === 'quiz' ? '🧠 Quiz' : l.type}
                         </span>
                         <span className="lesson-arrow">→</span>
                       </div>
                     ))}
+
+                    <div className="module-rating">
+                      <span className="rating-label">Rate this module:</span>
+                      <div className="stars">
+                        {[1,2,3,4,5].map(star => (
+                          <span
+                            key={star}
+                            className={`star ${(moduleRatings[mod.title] || 0) >= star ? 'active' : ''}`}
+                            onClick={(e) => { e.stopPropagation(); rateModule(mod.title, star); }}
+                          >★</span>
+                        ))}
+                      </div>
+                      {moduleRatings[mod.title] && (
+                        <span className="rating-text">{moduleRatings[mod.title]}/5</span>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
@@ -188,7 +276,7 @@ export default function CourseDetail({ course, onBack, onNotif }) {
               {loading && (
                 <div className="lesson-loading">
                   <div className="loading-spinner"></div>
-                  <p>AI content generate ho raha hai...</p>
+                  <p>{isQuiz ? 'Generating quiz...' : 'Generating lesson content...'}</p>
                 </div>
               )}
 
@@ -199,13 +287,90 @@ export default function CourseDetail({ course, onBack, onNotif }) {
                 </div>
               )}
 
-              {lessonContent && !loading && (
+              {/* QUIZ MODE */}
+              {lessonContent && !loading && isQuiz && (
+                <div className="quiz-container">
+                  {submitted && (
+                    <div className="quiz-score">
+                      <div className="score-number">{getMCQScore()}/10</div>
+                      <div className="score-label">
+                        {getMCQScore() >= 9 ? '🎉 Excellent!' :
+                         getMCQScore() >= 7 ? '👍 Great job!' :
+                         getMCQScore() >= 5 ? '😊 Good effort, keep practicing!' :
+                         '📚 Review the material and try again!'}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="content-section-title">📝 MCQ Questions (10)</div>
+                  {lessonContent.mcqs.map((q, qi) => (
+                    <div key={qi} className="quiz-question">
+                      <div className="question-text">Q{qi + 1}. {q.question}</div>
+                      <div className="quiz-options">
+                        {q.options.map((opt, oi) => {
+                          let cls = 'quiz-option';
+                          if (answers[qi] === oi) cls += ' selected';
+                          if (submitted && oi === q.correct) cls += ' correct';
+                          if (submitted && answers[qi] === oi && oi !== q.correct) cls += ' wrong';
+                          return (
+                            <div key={oi} className={cls} onClick={() => handleAnswer(qi, oi)}>
+                              <span className="option-letter">{String.fromCharCode(65 + oi)}</span>
+                              {opt}
+                            </div>
+                          );
+                        })}
+                      </div>
+                      {submitted && (
+                        <div className="question-explanation">💡 {q.explanation}</div>
+                      )}
+                    </div>
+                  ))}
+
+                  {lessonContent.shortQuestion && (
+                    <div className="short-question-section">
+                      <div className="content-section-title">✍️ Short Question (5 Marks)</div>
+                      <div className="short-question-text">{lessonContent.shortQuestion.question}</div>
+                      <textarea
+                        className="short-answer-input"
+                        placeholder="Write your answer here..."
+                        value={shortAnswer}
+                        onChange={e => setShortAnswer(e.target.value)}
+                        rows={4}
+                        disabled={showSampleAnswer}
+                      />
+                      {!showSampleAnswer && (
+                        <button className="show-answer-btn" onClick={() => setShowSampleAnswer(true)}>
+                          View Sample Answer
+                        </button>
+                      )}
+                      {showSampleAnswer && (
+                        <div className="sample-answer">
+                          <div className="sample-answer-title">✅ Sample Answer:</div>
+                          <p>{lessonContent.shortQuestion.sampleAnswer}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {!submitted ? (
+                    <button className="submit-quiz-btn" onClick={submitQuiz}>
+                      Submit Quiz ({Object.keys(answers).length}/10 answered)
+                    </button>
+                  ) : (
+                    <button className="retry-quiz-btn" onClick={() => openLesson(selectedLesson, selectedLesson.moduleTitle)}>
+                      🔄 New Quiz
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {/* LESSON MODE */}
+              {lessonContent && !loading && !isQuiz && (
                 <>
                   <div className="content-section">
                     <div className="content-section-title">📖 Explanation</div>
                     <p className="content-text">{lessonContent.explanation}</p>
                   </div>
-
                   {lessonContent.keyPoints?.length > 0 && (
                     <div className="content-section">
                       <div className="content-section-title">🔑 Key Points</div>
@@ -216,14 +381,12 @@ export default function CourseDetail({ course, onBack, onNotif }) {
                       </ul>
                     </div>
                   )}
-
                   {lessonContent.practical && (
                     <div className="content-section practical-section">
                       <div className="content-section-title">💻 Practical Exercise</div>
                       <p className="content-text">{lessonContent.practical}</p>
                     </div>
                   )}
-
                   {lessonContent.youtubeQuery && (
                     <div className="content-section">
                       <div className="content-section-title">🎬 Best Video Tutorial</div>
