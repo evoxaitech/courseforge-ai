@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './CourseDetail.css';
 
 const API_URL = '/api/claude';
@@ -40,6 +40,7 @@ export default function CourseDetail({ course, onBack, onNotif }) {
   const [lessonContent, setLessonContent] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const cacheRef = useRef({});
 
   const toggle = i => setExpanded(prev => {
     const n = new Set(prev);
@@ -48,12 +49,21 @@ export default function CourseDetail({ course, onBack, onNotif }) {
   });
 
   const openLesson = async (lesson, moduleTitle) => {
+    const cacheKey = `${moduleTitle}__${lesson.title}`;
     setSelectedLesson({ ...lesson, moduleTitle });
-    setLessonContent(null);
     setError(null);
+
+    if (cacheRef.current[cacheKey]) {
+      setLessonContent(cacheRef.current[cacheKey]);
+      setLoading(false);
+      return;
+    }
+
+    setLessonContent(null);
     setLoading(true);
     try {
       const content = await generateLessonContent(course.title, moduleTitle, lesson.title);
+      cacheRef.current[cacheKey] = content;
       setLessonContent(content);
     } catch (err) {
       setError('Content generate nahi ho saka. Dobara try karo.');
@@ -69,7 +79,8 @@ export default function CourseDetail({ course, onBack, onNotif }) {
   };
 
   const openYouTube = (query) => {
-    window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`, '_blank');
+    const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}&sp=CAASAhAB`;
+    window.open(url, '_blank');
   };
 
   return (
@@ -213,9 +224,9 @@ export default function CourseDetail({ course, onBack, onNotif }) {
 
                   {lessonContent.youtubeQuery && (
                     <div className="content-section">
-                      <div className="content-section-title">🎬 Video Tutorial</div>
+                      <div className="content-section-title">🎬 Best Video Tutorial</div>
                       <button className="youtube-btn" onClick={() => openYouTube(lessonContent.youtubeQuery)}>
-                        ▶ Watch on YouTube: "{lessonContent.youtubeQuery}"
+                        ▶ Watch Best Video: "{lessonContent.youtubeQuery}"
                       </button>
                     </div>
                   )}
