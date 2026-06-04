@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './CourseDetail.css';
 
 const API_URL = '/api/claude';
@@ -85,6 +85,7 @@ export default function CourseDetail({ course, onBack, onNotif }) {
   const [moduleRatings, setModuleRatings] = useState({});
   const [shortAnswer, setShortAnswer] = useState('');
   const [showSampleAnswer, setShowSampleAnswer] = useState(false);
+  const cacheRef = useRef({});
 
   const toggle = i => setExpanded(prev => {
     const n = new Set(prev);
@@ -94,6 +95,8 @@ export default function CourseDetail({ course, onBack, onNotif }) {
 
   const openLesson = async (lesson, moduleTitle) => {
     const quizMode = lesson.type === 'quiz';
+    const cacheKey = `${moduleTitle}__${lesson.title}`;
+
     setSelectedLesson({ ...lesson, moduleTitle });
     setIsQuiz(quizMode);
     setAnswers({});
@@ -102,12 +105,20 @@ export default function CourseDetail({ course, onBack, onNotif }) {
     setShortAnswer('');
     setShowSampleAnswer(false);
     setError(null);
+
+    if (!quizMode && cacheRef.current[cacheKey]) {
+      setLessonContent(cacheRef.current[cacheKey]);
+      setLoading(false);
+      return;
+    }
+
     setLessonContent(null);
     setLoading(true);
     try {
       const content = quizMode
         ? await generateQuiz(course.title, moduleTitle, lesson.title)
         : await generateLessonContent(course.title, moduleTitle, lesson.title);
+      if (!quizMode) cacheRef.current[cacheKey] = content;
       setLessonContent(content);
     } catch (err) {
       setError('Content could not be generated. Please try again.');
@@ -299,7 +310,7 @@ export default function CourseDetail({ course, onBack, onNotif }) {
                           );
                         })}
                       </div>
-                     {answers[qi] !== undefined && submitted && (
+                      {answers[qi] !== undefined && submitted && (
                         <div className="question-explanation">💡 {q.explanation}</div>
                       )}
                     </div>
