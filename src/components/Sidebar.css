@@ -1,5 +1,5 @@
 .sidebar {
-    width: 240px;
+    width: 232px;
     flex-shrink: 0;
     background: var(--surface);
     border-right: 1px solid var(--border);
@@ -7,21 +7,32 @@
     flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
+    position: relative;
+}
+
+.sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(123, 92, 245, 0.3), transparent);
 }
 
 .sidebar-nav {
-    padding: 16px 12px 8px;
+    padding: 20px 12px 10px;
 }
 
 .sidebar-label {
-    font-size: 10px;
+    font-size: 9.5px;
     font-weight: 700;
-    font-family: var(--font-display);
-    letter-spacing: 1.4px;
+    font-family: var(--font-mono);
+    letter-spacing: 1.6px;
     text-transform: uppercase;
     color: var(--text4);
-    padding: 0 8px;
-    margin-bottom: 6px;
+    padding: 0 10px;
+    margin-bottom: 8px;
 }
 
 .sidebar-item {
@@ -30,78 +41,122 @@
     gap: 10px;
     width: 100%;
     padding: 9px 12px;
-    border-radius: 10px;
-    border: none;
+    border-radius: var(--r-lg);
+    border: 1px solid transparent;
     background: transparent;
     cursor: pointer;
-    font-size: 13.5px;
+    font-size: 13px;
     font-family: var(--font-body);
-    color: var(--text2);
+    font-weight: 500;
+    color: var(--text3);
     text-align: left;
     transition: var(--trans);
     margin-bottom: 2px;
+    letter-spacing: -0.1px;
 }
 
 .sidebar-item:hover {
     background: var(--surface2);
-    color: var(--text);
+    color: var(--text2);
+    border-color: var(--border);
 }
 
 .sidebar-item.active {
-    background: rgba(124, 92, 252, 0.1);
+    background: rgba(123, 92, 245, 0.08);
     color: var(--accent3);
-    border: 1px solid rgba(124, 92, 252, 0.18);
+    border-color: rgba(123, 92, 245, 0.16);
+    font-weight: 600;
 }
 
 .sidebar-item-icon {
-    font-size: 15px;
+    font-size: 14px;
     width: 18px;
     text-align: center;
     flex-shrink: 0;
+    opacity: 0.8;
+}
+
+.sidebar-item.active .sidebar-item-icon {
+    opacity: 1;
 }
 
 .sidebar-recent {
     flex: 1;
     border-top: 1px solid var(--border);
-    padding: 14px 12px 8px;
+    padding: 16px 12px 8px;
+}
+
+.course-pill-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    border-radius: var(--r-md);
+    transition: var(--trans);
+}
+
+.course-pill-wrapper:hover {
+    background: var(--surface2);
 }
 
 .course-pill {
     display: flex;
     align-items: center;
     gap: 9px;
-    width: 100%;
+    flex: 1;
     padding: 7px 10px;
-    border-radius: 9px;
+    border-radius: var(--r-md);
     border: none;
     background: transparent;
     cursor: pointer;
     transition: var(--trans);
-    margin-bottom: 2px;
-}
-
-.course-pill:hover {
-    background: var(--surface2);
+    margin-bottom: 1px;
 }
 
 .course-dot {
-    width: 7px;
-    height: 7px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     flex-shrink: 0;
 }
 
 .course-pill-title {
-    font-size: 12.5px;
-    color: var(--text2);
+    font-size: 12px;
+    color: var(--text3);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-family: var(--font-body);
+    font-weight: 500;
+}
+
+.course-pill-wrapper:hover .course-pill-title {
+    color: var(--text2);
+}
+
+.course-delete-btn {
+    background: transparent;
+    border: none;
+    color: var(--text4);
+    font-size: 11px;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: var(--r-sm);
+    opacity: 0;
+    transition: var(--trans);
+    flex-shrink: 0;
+    margin-right: 4px;
+}
+
+.course-pill-wrapper:hover .course-delete-btn {
+    opacity: 1;
+}
+
+.course-delete-btn:hover {
+    color: var(--red);
+    background: var(--red-bg);
 }
 
 .sidebar-footer {
-    padding: 14px 16px;
+    padding: 16px;
     border-top: 1px solid var(--border);
     background: var(--surface);
     position: sticky;
@@ -112,43 +167,43 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 9px;
 }
 
 .usage-label {
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 600;
-    font-family: var(--font-display);
-    color: var(--text2);
+    color: var(--text3);
 }
 
 .usage-value {
-    font-size: 12px;
-    color: var(--accent3);
-    font-family: var(--font-display);
+    font-size: 11.5px;
+    color: var(--accent2);
+    font-family: var(--font-mono);
     font-weight: 600;
 }
 
 .usage-track {
-    height: 5px;
+    height: 4px;
     background: var(--surface3);
     border-radius: 4px;
     overflow: hidden;
-    margin-bottom: 8px;
+    margin-bottom: 9px;
 }
 
 .usage-fill {
     height: 100%;
     background: linear-gradient(90deg, var(--accent), var(--accent2));
     border-radius: 4px;
-    transition: width 0.5s ease;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 8px rgba(123, 92, 245, 0.5);
 }
 
 .usage-sub {
     display: flex;
     justify-content: space-between;
     font-size: 11px;
-    color: var(--text3);
+    color: var(--text4);
 }
 
 .upgrade-link {
@@ -158,38 +213,10 @@
     color: var(--accent2);
     cursor: pointer;
     padding: 0;
-    font-family: var(--font-display);
     font-weight: 600;
     transition: var(--trans);
 }
 
 .upgrade-link:hover {
     color: var(--accent3);
-}
-.course-pill-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.course-pill-wrapper .course-pill {
-    flex: 1;
-}
-
-.course-delete-btn {
-    background: transparent;
-    border: none;
-    color: #555;
-    font-size: 12px;
-    cursor: pointer;
-    padding: 4px 6px;
-    border-radius: 4px;
-    opacity: 0;
-    transition: all 0.2s;
-    flex-shrink: 0;
-}
-
-.course-pill-wrapper:hover .course-delete-btn {
-    opacity: 1;
-    color: #ef4444;
 }

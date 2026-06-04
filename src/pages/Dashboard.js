@@ -13,7 +13,7 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
     <div className="page fade-in">
       <div className="page-header">
         <div className="dash-hero">
-          <div>
+          <div className="dash-hero-left">
             <div className="page-title">Welcome to CourseForge AI ✦</div>
             <div className="page-subtitle">Generate complete course curriculums in under 60 seconds.</div>
           </div>
@@ -26,7 +26,7 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
       <div className="stats-grid">
         {stats.map((s, i) => (
           <div key={i} className={`stat-card ${s.color}`}>
-            <div className="stat-icon">{s.icon}</div>
+            <span className="stat-icon">{s.icon}</span>
             <div className="stat-value">{s.value}</div>
             <div className="stat-label">{s.label}</div>
           </div>
@@ -46,7 +46,7 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
             <div className="empty-icon">✦</div>
             <div className="empty-title">No courses yet</div>
             <div className="empty-desc">Generate your first AI curriculum!</div>
-            <button className="btn-primary" style={{ marginTop: 16 }} onClick={() => onNavigate('generator')}>
+            <button className="btn-primary" style={{ marginTop: 20 }} onClick={() => onNavigate('generator')}>
               ✦ Generate Now
             </button>
           </div>
@@ -86,7 +86,7 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
                 <div className="coming-title">{f.title}</div>
                 <div className="coming-desc">{f.desc}</div>
               </div>
-              <span className="coming-badge">Soon</span>
+              <span className="coming-badge">SOON</span>
             </div>
           ))}
         </div>
