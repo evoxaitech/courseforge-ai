@@ -5,7 +5,6 @@ const API_URL = '/api/claude';
 
 async function generateLessonContent(courseTitle, moduleTitle, lessonTitle) {
   const prompt = `You are an expert educator. Generate detailed lesson content for:
-
 Course: ${courseTitle}
 Module: ${moduleTitle}  
 Lesson: ${lessonTitle}
@@ -17,25 +16,18 @@ Respond ONLY with a JSON object (no markdown, no backticks):
   "practical": "A specific hands-on exercise the student should do right now to practice this concept. Be very specific and actionable.",
   "youtubeQuery": "best search query to find a great YouTube tutorial video for this exact topic (5-8 words)"
 }`;
-
   const response = await fetch(API_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1500,
-      messages: [{ role: 'user', content: prompt }]
-    })
+    body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1500, messages: [{ role: 'user', content: prompt }] })
   });
   const data = await response.json();
-  const text = data.content?.[0]?.text || '';
-  const clean = text.replace(/```json|```/g, '').trim();
+  const clean = (data.content?.[0]?.text || '').replace(/```json|```/g, '').trim();
   return JSON.parse(clean);
 }
 
 async function generateQuiz(courseTitle, moduleTitle, lessonTitle) {
   const prompt = `You are an expert educator. Generate a completely fresh quiz every time for:
-
 Course: ${courseTitle}
 Module: ${moduleTitle}
 Lesson: ${lessonTitle}
@@ -56,52 +48,28 @@ Respond ONLY with a JSON object (no markdown, no backticks):
     "sampleAnswer": "A detailed sample answer covering all 5 key points needed for full marks"
   }
 }
-
-Generate exactly 10 MCQ questions. Make them challenging but fair. Generate completely different questions each time. All content must be in English only.`;
-
+Generate exactly 10 MCQ questions. Challenging but fair. Completely different each time. English only.`;
   const response = await fetch(API_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 2000,
-      messages: [{ role: 'user', content: prompt }]
-    })
+    body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 2000, messages: [{ role: 'user', content: prompt }] })
   });
   const data = await response.json();
-  const text = data.content?.[0]?.text || '';
-  const clean = text.replace(/```json|```/g, '').trim();
+  const clean = (data.content?.[0]?.text || '').replace(/```json|```/g, '').trim();
   return JSON.parse(clean);
 }
 
-const QUOTES = {
-  perfect: [
-    "\"The expert in anything was once a beginner.\" — Helen Hayes",
-    "\"Excellence is not a destination but a continuous journey.\" — Brian Tracy",
-    "\"Success is the sum of small efforts repeated day in and day out.\" — Robert Collier"
-  ],
-  great: [
-    "\"The secret of getting ahead is getting started.\" — Mark Twain",
-    "\"Believe you can and you're halfway there.\" — Theodore Roosevelt",
-    "\"Every accomplishment starts with the decision to try.\" — John F. Kennedy"
-  ],
-  good: [
-    "\"It does not matter how slowly you go as long as you do not stop.\" — Confucius",
-    "\"Keep going. Everything you need will come to you at the perfect time.\"",
-    "\"Progress, not perfection, is the goal.\""
-  ],
-  low: [
-    "\"Fall seven times, stand up eight.\" — Japanese Proverb",
-    "\"Every master was once a disaster.\" — T. Harv Eker",
-    "\"The only real mistake is the one from which we learn nothing.\" — Henry Ford"
-  ]
-};
+const QUOTES = [
+  { min: 10, max: 10, quotes: ["\"The expert in anything was once a beginner.\" — Helen Hayes", "\"Excellence is not a destination but a continuous journey.\" — Brian Tracy", "\"Perfect score! You are absolutely unstoppable!\""] },
+  { min: 7, max: 9, quotes: ["\"Believe you can and you're halfway there.\" — Theodore Roosevelt", "\"Every accomplishment starts with the decision to try.\" — John F. Kennedy", "\"Great work! Keep pushing forward!\""] },
+  { min: 5, max: 6, quotes: ["\"It does not matter how slowly you go as long as you do not stop.\" — Confucius", "\"Progress, not perfection, is the goal.\"", "\"Keep going. Everything you need will come to you at the perfect time.\""] },
+  { min: 0, max: 4, quotes: ["\"Fall seven times, stand up eight.\" — Japanese Proverb", "\"Every master was once a disaster.\" — T. Harv Eker", "\"The only real mistake is the one from which we learn nothing.\" — Henry Ford"] }
+];
 
 function getQuote(score) {
-  if (score === 10) return QUOTES.perfect[Math.floor(Math.random() * 3)];
-  if (score >= 7) return QUOTES.great[Math.floor(Math.random() * 3)];
-  if (score >= 5) return QUOTES.good[Math.floor(Math.random() * 3)];
-  return QUOTES.low[Math.floor(Math.random() * 3)];
+  const bucket = QUOTES.find(q => score >= q.min && score <= q.max);
+  const arr = bucket?.quotes || QUOTES[3].quotes;
+  return arr[Math.floor(Math.random() * arr.length)];
 }
 
 export default function CourseDetail({ course, onBack, onNotif }) {
@@ -113,6 +81,7 @@ export default function CourseDetail({ course, onBack, onNotif }) {
   const [isQuiz, setIsQuiz] = useState(false);
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [showScorePopup, setShowScorePopup] = useState(false);
   const [moduleRatings, setModuleRatings] = useState({});
   const [shortAnswer, setShortAnswer] = useState('');
   const [showSampleAnswer, setShowSampleAnswer] = useState(false);
@@ -129,6 +98,7 @@ export default function CourseDetail({ course, onBack, onNotif }) {
     setIsQuiz(quizMode);
     setAnswers({});
     setSubmitted(false);
+    setShowScorePopup(false);
     setShortAnswer('');
     setShowSampleAnswer(false);
     setError(null);
@@ -152,6 +122,7 @@ export default function CourseDetail({ course, onBack, onNotif }) {
     setError(null);
     setAnswers({});
     setSubmitted(false);
+    setShowScorePopup(false);
     setIsQuiz(false);
     setShortAnswer('');
     setShowSampleAnswer(false);
@@ -162,7 +133,7 @@ export default function CourseDetail({ course, onBack, onNotif }) {
   };
 
   const handleAnswer = (qIndex, optIndex) => {
-    if (submitted) return;
+    if (answers[qIndex] !== undefined) return;
     setAnswers(prev => ({ ...prev, [qIndex]: optIndex }));
   };
 
@@ -172,6 +143,7 @@ export default function CourseDetail({ course, onBack, onNotif }) {
       return;
     }
     setSubmitted(true);
+    setShowScorePopup(true);
   };
 
   const getMCQScore = () => {
@@ -264,9 +236,7 @@ export default function CourseDetail({ course, onBack, onNotif }) {
           {course.prerequisites?.length > 0 && (
             <div className="detail-card">
               <div className="detail-card-title">Prerequisites</div>
-              {course.prerequisites.map((p, i) => (
-                <div key={i} className="prereq-item">• {p}</div>
-              ))}
+              {course.prerequisites.map((p, i) => <div key={i} className="prereq-item">• {p}</div>)}
             </div>
           )}
           <div className="detail-card">
@@ -296,7 +266,6 @@ export default function CourseDetail({ course, onBack, onNotif }) {
                   <p>{isQuiz ? 'Generating quiz...' : 'Generating lesson content...'}</p>
                 </div>
               )}
-
               {error && (
                 <div className="lesson-error">
                   <p>{error}</p>
@@ -306,49 +275,36 @@ export default function CourseDetail({ course, onBack, onNotif }) {
 
               {lessonContent && !loading && isQuiz && (
                 <div className="quiz-container">
-
-                  {/* Score after submit */}
-                  {submitted && (
-                    <div className="quiz-result-card">
-                      <div className="result-score">{getMCQScore()}<span className="result-total">/10</span></div>
-                      <div className="result-label">
-                        {getMCQScore() === 10 ? '🎉 Perfect Score!' :
-                         getMCQScore() >= 7 ? '👍 Great Job!' :
-                         getMCQScore() >= 5 ? '😊 Good Effort!' :
-                         '📚 Keep Practicing!'}
-                      </div>
-                      <div className="result-quote">"{getQuote(getMCQScore())}"</div>
-                    </div>
-                  )}
-
                   <div className="content-section-title">📝 MCQ Questions (10)</div>
                   {lessonContent.mcqs.map((q, qi) => (
                     <div key={qi} className="quiz-question">
                       <div className="question-text">Q{qi + 1}. {q.question}</div>
                       <div className="quiz-options">
                         {q.options.map((opt, oi) => {
+                          const selected = answers[qi] === oi;
+                          const isCorrect = oi === q.correct;
+                          const isAnswered = answers[qi] !== undefined;
                           let cls = 'quiz-option';
-                          if (answers[qi] === oi) cls += ' selected';
-                          if (submitted && oi === q.correct) cls += ' correct';
-                          if (submitted && answers[qi] === oi && oi !== q.correct) cls += ' wrong';
+                          if (selected && isCorrect) cls += ' correct';
+                          else if (selected && !isCorrect) cls += ' wrong';
+                          else if (isAnswered && isCorrect) cls += ' correct';
                           return (
                             <div key={oi} className={cls} onClick={() => handleAnswer(qi, oi)}>
                               <span className="option-letter">{String.fromCharCode(65 + oi)}</span>
                               <span className="option-text">{opt}</span>
-                              {answers[qi] === oi && oi === q.correct && <span className="option-icon correct-icon">✓</span>}
-                              {answers[qi] === oi && oi !== q.correct && submitted && <span className="option-icon wrong-icon">✗</span>}
-                              {submitted && oi === q.correct && answers[qi] !== oi && <span className="option-icon correct-icon">✓</span>}
+                              {selected && isCorrect && <span className="option-icon correct-icon">✓</span>}
+                              {selected && !isCorrect && <span className="option-icon wrong-icon">✗</span>}
+                              {!selected && isAnswered && isCorrect && <span className="option-icon correct-icon">✓</span>}
                             </div>
                           );
                         })}
                       </div>
-                      {submitted && (
+                      {isAnswered && submitted && (
                         <div className="question-explanation">💡 {q.explanation}</div>
                       )}
                     </div>
                   ))}
 
-                  {/* Short Question */}
                   {lessonContent.shortQuestion && (
                     <div className="short-question-section">
                       <div className="content-section-title">✍️ Short Question (5 Marks)</div>
@@ -362,9 +318,7 @@ export default function CourseDetail({ course, onBack, onNotif }) {
                         disabled={showSampleAnswer}
                       />
                       {!showSampleAnswer && (
-                        <button className="show-answer-btn" onClick={() => setShowSampleAnswer(true)}>
-                          View Sample Answer
-                        </button>
+                        <button className="show-answer-btn" onClick={() => setShowSampleAnswer(true)}>View Sample Answer</button>
                       )}
                       {showSampleAnswer && (
                         <div className="sample-answer">
@@ -418,6 +372,22 @@ export default function CourseDetail({ course, onBack, onNotif }) {
                 </>
               )}
             </div>
+          </div>
+        </div>
+      )}
+
+      {showScorePopup && (
+        <div className="score-popup-overlay" onClick={() => setShowScorePopup(false)}>
+          <div className="score-popup" onClick={e => e.stopPropagation()}>
+            <div className="score-popup-number">{getMCQScore()}<span className="score-popup-total">/10</span></div>
+            <div className="score-popup-label">
+              {getMCQScore() === 10 ? '🎉 Perfect Score!' :
+               getMCQScore() >= 7 ? '👍 Great Job!' :
+               getMCQScore() >= 5 ? '😊 Good Effort!' :
+               '📚 Keep Practicing!'}
+            </div>
+            <div className="score-popup-quote">{getQuote(getMCQScore())}</div>
+            <button className="score-popup-close" onClick={() => setShowScorePopup(false)}>Close</button>
           </div>
         </div>
       )}

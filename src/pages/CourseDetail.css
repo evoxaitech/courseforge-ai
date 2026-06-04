@@ -557,3 +557,70 @@
     line-height: 1.6;
     padding: 0 16px;
 }
+/* Score Popup */
+.score-popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+
+.score-popup {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border: 1px solid rgba(139, 92, 246, 0.4);
+    border-radius: 24px;
+    padding: 48px 40px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    animation: slideUp 0.3s ease;
+}
+
+.score-popup-number {
+    font-size: 96px;
+    font-weight: 900;
+    color: #a78bfa;
+    line-height: 1;
+}
+
+.score-popup-total {
+    font-size: 48px;
+    color: #6b7280;
+}
+
+.score-popup-label {
+    font-size: 22px;
+    font-weight: 700;
+    color: #f1f0ff;
+    margin-top: 12px;
+}
+
+.score-popup-quote {
+    font-size: 14px;
+    color: #9ca3af;
+    font-style: italic;
+    margin-top: 20px;
+    line-height: 1.7;
+    padding: 0 8px;
+}
+
+.score-popup-close {
+    margin-top: 28px;
+    background: #8b5cf6;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 32px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.score-popup-close:hover {
+    background: #7c3aed;
+}
