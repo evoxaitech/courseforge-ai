@@ -299,7 +299,7 @@ export default function CourseDetail({ course, onBack, onNotif }) {
                           );
                         })}
                       </div>
-                      {isAnswered && submitted && (
+                     {answers[qi] !== undefined && submitted && (
                         <div className="question-explanation">💡 {q.explanation}</div>
                       )}
                     </div>
