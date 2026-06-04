@@ -166,3 +166,30 @@
 .upgrade-link:hover {
     color: var(--accent3);
 }
+.course-pill-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.course-pill-wrapper .course-pill {
+    flex: 1;
+}
+
+.course-delete-btn {
+    background: transparent;
+    border: none;
+    color: #555;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 4px;
+    opacity: 0;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.course-pill-wrapper:hover .course-delete-btn {
+    opacity: 1;
+    color: #ef4444;
+}

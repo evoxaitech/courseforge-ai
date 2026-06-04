@@ -9,7 +9,7 @@ const NAV = [
 
 const COLORS = ['#7C5CFC','#10D9A0','#F59E0B','#38BDF8'];
 
-export default function Sidebar({ currentView, onNavigate, recentCourses = [], onCourseClick, creditsUsed = 0 }) {
+export default function Sidebar({ currentView, onNavigate, recentCourses = [], onCourseClick, creditsUsed = 0, onDeleteCourse }) {
   const pct = Math.min((creditsUsed / 25) * 100, 100);
 
   return (
@@ -32,10 +32,17 @@ export default function Sidebar({ currentView, onNavigate, recentCourses = [], o
         <div className="sidebar-recent">
           <div className="sidebar-label">Recent</div>
           {recentCourses.map((c, i) => (
-            <button key={c.id} className="course-pill" onClick={() => onCourseClick(c.id)}>
-              <span className="course-dot" style={{ background: COLORS[i % COLORS.length] }} />
-              <span className="course-pill-title">{c.title}</span>
-            </button>
+            <div key={c.id} className="course-pill-wrapper">
+              <button className="course-pill" onClick={() => onCourseClick(c.id)}>
+                <span className="course-dot" style={{ background: COLORS[i % COLORS.length] }} />
+                <span className="course-pill-title">{c.title}</span>
+              </button>
+              <button
+                className="course-delete-btn"
+                onClick={(e) => { e.stopPropagation(); onDeleteCourse && onDeleteCourse(c.id); }}
+                title="Delete course"
+              >✕</button>
+            </div>
           ))}
         </div>
       )}

@@ -34,13 +34,14 @@ export default function App() {
     <div className="app-root">
       <Navbar onNavigate={navigate} />
       <div className="app-body">
-        <Sidebar
-          currentView={view}
-          onNavigate={navigate}
-          recentCourses={courses.slice(0, 4)}
-          onCourseClick={id => navigate('course-detail', id)}
-          creditsUsed={courses.length * 3}
-        />
+ <Sidebar
+  currentView={view}
+  onNavigate={navigate}
+  recentCourses={courses.slice(0, 4)}
+  onCourseClick={id => navigate('course-detail', id)}
+  creditsUsed={courses.length * 3}
+  onDeleteCourse={deleteCourse}
+                                 />
         <main className="app-main">
           {view === 'dashboard' && <Dashboard courses={courses} onNavigate={navigate} onCourseClick={id => navigate('course-detail', id)} />}
           {view === 'generator' && <Generator onGenerated={handleGenerated} onNotif={show} />}
