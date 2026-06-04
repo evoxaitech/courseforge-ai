@@ -11,18 +11,44 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
 
   return (
     <div className="page fade-in">
-      <div className="page-header">
-        <div className="dash-hero">
-          <div>
-            <div className="page-title">Welcome to CourseForge AI ✦</div>
-            <div className="page-subtitle">Generate complete course curriculums in under 60 seconds.</div>
-          </div>
-          <button className="btn-primary" onClick={() => onNavigate('generator')}>
+
+      {/* Hero Banner */}
+      <div className="dash-hero-banner">
+        <div className="dash-hero-glow" />
+        <div className="dash-hero-content">
+          <div className="dash-hero-badge">✦ AI-Powered</div>
+          <h1 className="dash-hero-title">Build Courses.<br/>10x Faster.</h1>
+          <p className="dash-hero-sub">Generate complete course curriculums in under 60 seconds using Claude AI.</p>
+          <button className="dash-hero-btn" onClick={() => onNavigate('generator')}>
             ✦ Generate Course
           </button>
         </div>
+        <div className="dash-hero-visual">
+          <div className="hero-card-float hero-card-1">
+            <span>🎓</span>
+            <div>
+              <div className="hcf-title">Python Basics</div>
+              <div className="hcf-sub">12 modules · 40 lessons</div>
+            </div>
+          </div>
+          <div className="hero-card-float hero-card-2">
+            <span>⚡</span>
+            <div>
+              <div className="hcf-title">Generated in 48s</div>
+              <div className="hcf-sub">Claude AI</div>
+            </div>
+          </div>
+          <div className="hero-card-float hero-card-3">
+            <span>📊</span>
+            <div>
+              <div className="hcf-title">Ready to publish</div>
+              <div className="hcf-sub">Export anytime</div>
+            </div>
+          </div>
+        </div>
       </div>
 
+      {/* Stats */}
       <div className="stats-grid">
         {stats.map((s, i) => (
           <div key={i} className={`stat-card ${s.color}`}>
@@ -33,6 +59,7 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
         ))}
       </div>
 
+      {/* Recent Courses */}
       <div className="dash-section">
         <div className="dash-section-header">
           <div className="section-title">Recent Courses</div>
@@ -72,6 +99,7 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
         )}
       </div>
 
+      {/* Coming Soon */}
       <div className="dash-section">
         <div className="dash-section-header">
           <div className="section-title">Coming Soon</div>
