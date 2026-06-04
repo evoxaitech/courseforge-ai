@@ -16,6 +16,11 @@ export default function App() {
   const { courses, addCourse, deleteCourse, updateCourse } = useCourses();
   const { notif, show } = useNotification();
 
+  const [totalCreditsUsed, setTotalCreditsUsed] = useState(() => {
+    try { return parseInt(localStorage.getItem('courseforge_credits') || '0'); }
+    catch { return 0; }
+  });
+
   const navigate = (v, id = null) => {
     setView(v);
     if (id) setSelectedId(id);
@@ -24,6 +29,9 @@ export default function App() {
 
   const handleGenerated = (data) => {
     const course = addCourse(data);
+    const newCredits = totalCreditsUsed + 3;
+    setTotalCreditsUsed(newCredits);
+    localStorage.setItem('courseforge_credits', newCredits.toString());
     show('✦ Curriculum saved!');
     navigate('course-detail', course.id);
   };
@@ -34,14 +42,14 @@ export default function App() {
     <div className="app-root">
       <Navbar onNavigate={navigate} />
       <div className="app-body">
- <Sidebar
-  currentView={view}
-  onNavigate={navigate}
-  recentCourses={courses.slice(0, 4)}
-  onCourseClick={id => navigate('course-detail', id)}
-  creditsUsed={courses.length * 3}
-  onDeleteCourse={deleteCourse}
-                                 />
+        <Sidebar
+          currentView={view}
+          onNavigate={navigate}
+          recentCourses={courses.slice(0, 4)}
+          onCourseClick={id => navigate('course-detail', id)}
+          creditsUsed={totalCreditsUsed}
+          onDeleteCourse={deleteCourse}
+        />
         <main className="app-main">
           {view === 'dashboard' && <Dashboard courses={courses} onNavigate={navigate} onCourseClick={id => navigate('course-detail', id)} />}
           {view === 'generator' && <Generator onGenerated={handleGenerated} onNotif={show} />}
