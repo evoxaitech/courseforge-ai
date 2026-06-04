@@ -7,7 +7,7 @@ const NAV = [
   { id: 'courses',   icon: '▤',  label: 'My Courses' },
 ];
 
-const COLORS = ['#7C5CFC','#10D9A0','#F59E0B','#38BDF8'];
+const COLORS = ['#7B5CF5','#10D9A0','#F59E0B','#38BDF8'];
 
 export default function Sidebar({ currentView, onNavigate, recentCourses = [], onCourseClick, creditsUsed = 0, onDeleteCourse }) {
   const pct = Math.min((creditsUsed / 25) * 100, 100);
@@ -48,16 +48,18 @@ export default function Sidebar({ currentView, onNavigate, recentCourses = [], o
       )}
 
       <div className="sidebar-footer">
-        <div className="usage-header">
-          <span className="usage-label">Credits Used</span>
-          <span className="usage-value">{creditsUsed}/25</span>
-        </div>
-        <div className="usage-track">
-          <div className="usage-fill" style={{ width: `${pct}%` }} />
-        </div>
-        <div className="usage-sub">
-          <span>{25 - creditsUsed} remaining</span>
-          <button className="upgrade-link">Upgrade ↗</button>
+        <div className="credits-box">
+          <div className="usage-header">
+            <span className="usage-label">Credits Used</span>
+            <span className="usage-value">{creditsUsed}/25</span>
+          </div>
+          <div className="usage-track">
+            <div className="usage-fill" style={{ width: `${pct}%` }} />
+          </div>
+          <div className="usage-sub">
+            <span>{25 - creditsUsed} remaining</span>
+            <button className="upgrade-link">Upgrade ↗</button>
+          </div>
         </div>
       </div>
     </aside>

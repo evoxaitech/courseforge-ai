@@ -13,7 +13,7 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
     <div className="page fade-in">
       <div className="page-header">
         <div className="dash-hero">
-          <div className="dash-hero-left">
+          <div>
             <div className="page-title">Welcome to CourseForge AI ✦</div>
             <div className="page-subtitle">Generate complete course curriculums in under 60 seconds.</div>
           </div>
@@ -26,7 +26,7 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
       <div className="stats-grid">
         {stats.map((s, i) => (
           <div key={i} className={`stat-card ${s.color}`}>
-            <span className="stat-icon">{s.icon}</span>
+            <div className="stat-icon-wrap">{s.icon}</div>
             <div className="stat-value">{s.value}</div>
             <div className="stat-label">{s.label}</div>
           </div>
@@ -54,14 +54,17 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
           <div className="courses-grid">
             {courses.slice(0, 6).map(c => (
               <div key={c.id} className="course-card" onClick={() => onCourseClick(c.id)}>
-                <div className="course-card-top">
-                  <div className="course-card-title">{c.title}</div>
-                  <div className="course-card-tagline">{c.tagline}</div>
-                </div>
-                <div className="course-card-footer">
-                  {c.totalHours && <span className="tag purple">{c.totalHours}h</span>}
-                  {c.totalLessons && <span className="tag green">{c.totalLessons} lessons</span>}
-                  {c.modules && <span className="tag amber">{c.modules.length} modules</span>}
+                <div className="course-card-stripe" />
+                <div className="course-card-body">
+                  <div>
+                    <div className="course-card-title">{c.title}</div>
+                    <div className="course-card-tagline">{c.tagline}</div>
+                  </div>
+                  <div className="course-card-footer">
+                    {c.totalHours && <span className="tag purple">{c.totalHours}h</span>}
+                    {c.totalLessons && <span className="tag green">{c.totalLessons} lessons</span>}
+                    {c.modules && <span className="tag amber">{c.modules.length} modules</span>}
+                  </div>
                 </div>
               </div>
             ))}

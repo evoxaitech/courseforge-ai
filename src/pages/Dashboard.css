@@ -5,12 +5,6 @@
     gap: 20px;
 }
 
-.dash-hero-left {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
 /* Stats Grid */
 .stats-grid {
     display: grid;
@@ -23,67 +17,79 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--r-xl);
-    padding: 20px;
+    padding: 22px 20px 18px;
     transition: var(--trans);
     position: relative;
     overflow: hidden;
     cursor: default;
 }
 
-.stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--stat-color, rgba(123, 92, 245, 0.4)), transparent);
-}
-
 .stat-card:hover {
     border-color: var(--border2);
     transform: translateY(-3px);
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
 }
 
-.stat-card.purple {
-    --stat-color: rgba(123, 92, 245, 0.5);
+.stat-icon-wrap {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    margin-bottom: 16px;
 }
 
-.stat-card.blue {
-    --stat-color: rgba(58, 175, 232, 0.5);
+.stat-card.purple .stat-icon-wrap {
+    background: rgba(123, 92, 245, 0.12);
+    border: 1px solid rgba(123, 92, 245, 0.2);
 }
 
-.stat-card.green {
-    --stat-color: rgba(14, 207, 150, 0.5);
+.stat-card.blue .stat-icon-wrap {
+    background: rgba(58, 175, 232, 0.1);
+    border: 1px solid rgba(58, 175, 232, 0.2);
 }
 
-.stat-card.amber {
-    --stat-color: rgba(240, 146, 10, 0.5);
+.stat-card.green .stat-icon-wrap {
+    background: rgba(14, 207, 150, 0.1);
+    border: 1px solid rgba(14, 207, 150, 0.2);
 }
 
-.stat-icon {
-    font-size: 18px;
-    margin-bottom: 14px;
-    display: block;
-    opacity: 0.85;
+.stat-card.amber .stat-icon-wrap {
+    background: rgba(240, 146, 10, 0.1);
+    border: 1px solid rgba(240, 146, 10, 0.2);
 }
 
 .stat-value {
-    font-size: 30px;
+    font-size: 32px;
     font-weight: 800;
     font-family: var(--font-mono);
-    color: var(--text);
     line-height: 1;
     margin-bottom: 6px;
-    letter-spacing: -1px;
+    letter-spacing: -1.5px;
+}
+
+.stat-card.purple .stat-value {
+    color: var(--accent3);
+}
+
+.stat-card.blue .stat-value {
+    color: var(--blue);
+}
+
+.stat-card.green .stat-value {
+    color: var(--green);
+}
+
+.stat-card.amber .stat-value {
+    color: var(--amber);
 }
 
 .stat-label {
     font-size: 11.5px;
     color: var(--text3);
     font-weight: 500;
-    letter-spacing: 0.1px;
 }
 
 /* Sections */
@@ -102,7 +108,6 @@
     font-size: 13px;
     font-weight: 700;
     color: var(--text2);
-    letter-spacing: 0.2px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -131,7 +136,7 @@
 
 .section-link:hover {
     color: var(--accent3);
-    background: var(--accent-glow2);
+    background: rgba(123, 92, 245, 0.08);
 }
 
 /* Course Cards */
@@ -145,33 +150,36 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--r-xl);
-    padding: 18px;
+    overflow: hidden;
     cursor: pointer;
     transition: var(--trans);
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    position: relative;
-    overflow: hidden;
 }
 
-.course-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(123, 92, 245, 0.04), transparent 60%);
-    opacity: 0;
+.course-card-stripe {
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), #38BDF8);
+    opacity: 0.6;
     transition: var(--trans);
+}
+
+.course-card:hover .course-card-stripe {
+    opacity: 1;
+}
+
+.course-card-body {
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex: 1;
 }
 
 .course-card:hover {
     border-color: rgba(123, 92, 245, 0.25);
     transform: translateY(-3px);
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(123, 92, 245, 0.1);
-}
-
-.course-card:hover::after {
-    opacity: 1;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
 }
 
 .course-card-title {
@@ -206,7 +214,7 @@
     border: 1px dashed rgba(123, 92, 245, 0.2);
     border-radius: var(--r-xl);
     text-align: center;
-    background-image: radial-gradient(circle at 50% 0%, rgba(123, 92, 245, 0.05), transparent 60%);
+    background-image: radial-gradient(circle at 50% 0%, rgba(123, 92, 245, 0.04), transparent 60%);
 }
 
 /* Coming Soon */
@@ -233,7 +241,7 @@
 }
 
 .coming-icon {
-    font-size: 18px;
+    font-size: 17px;
     flex-shrink: 0;
     width: 36px;
     height: 36px;
