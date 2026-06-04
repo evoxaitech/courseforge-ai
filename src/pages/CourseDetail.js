@@ -74,6 +74,36 @@ Generate exactly 10 MCQ questions. Make them challenging but fair. Generate comp
   return JSON.parse(clean);
 }
 
+const QUOTES = {
+  perfect: [
+    "\"The expert in anything was once a beginner.\" — Helen Hayes",
+    "\"Excellence is not a destination but a continuous journey.\" — Brian Tracy",
+    "\"Success is the sum of small efforts repeated day in and day out.\" — Robert Collier"
+  ],
+  great: [
+    "\"The secret of getting ahead is getting started.\" — Mark Twain",
+    "\"Believe you can and you're halfway there.\" — Theodore Roosevelt",
+    "\"Every accomplishment starts with the decision to try.\" — John F. Kennedy"
+  ],
+  good: [
+    "\"It does not matter how slowly you go as long as you do not stop.\" — Confucius",
+    "\"Keep going. Everything you need will come to you at the perfect time.\"",
+    "\"Progress, not perfection, is the goal.\""
+  ],
+  low: [
+    "\"Fall seven times, stand up eight.\" — Japanese Proverb",
+    "\"Every master was once a disaster.\" — T. Harv Eker",
+    "\"The only real mistake is the one from which we learn nothing.\" — Henry Ford"
+  ]
+};
+
+function getQuote(score) {
+  if (score === 10) return QUOTES.perfect[Math.floor(Math.random() * 3)];
+  if (score >= 7) return QUOTES.great[Math.floor(Math.random() * 3)];
+  if (score >= 5) return QUOTES.good[Math.floor(Math.random() * 3)];
+  return QUOTES.low[Math.floor(Math.random() * 3)];
+}
+
 export default function CourseDetail({ course, onBack, onNotif }) {
   const [expanded, setExpanded] = useState(new Set([0]));
   const [selectedLesson, setSelectedLesson] = useState(null);
@@ -104,7 +134,6 @@ export default function CourseDetail({ course, onBack, onNotif }) {
     setError(null);
     setLessonContent(null);
     setLoading(true);
-
     try {
       const content = quizMode
         ? await generateQuiz(course.title, moduleTitle, lesson.title)
@@ -129,8 +158,7 @@ export default function CourseDetail({ course, onBack, onNotif }) {
   };
 
   const openYouTube = (query) => {
-    const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}&sp=CAASAhAB`;
-    window.open(url, '_blank');
+    window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(query)}&sp=CAASAhAB`, '_blank');
   };
 
   const handleAnswer = (qIndex, optIndex) => {
@@ -163,9 +191,7 @@ export default function CourseDetail({ course, onBack, onNotif }) {
           <button className="btn-secondary" onClick={() => {
             navigator.clipboard.writeText(JSON.stringify(course, null, 2));
             onNotif('Copied to clipboard!');
-          }}>
-            📋 Export
-          </button>
+          }}>📋 Export</button>
         </div>
       </div>
 
@@ -195,7 +221,6 @@ export default function CourseDetail({ course, onBack, onNotif }) {
                   <div className="module-count">{mod.lessons?.length || 0} lessons</div>
                   <div className="module-chevron">{expanded.has(i) ? '▲' : '▼'}</div>
                 </div>
-
                 {expanded.has(i) && (
                   <div className="module-body">
                     {mod.objective && <div className="module-obj">🎯 {mod.objective}</div>}
@@ -210,21 +235,15 @@ export default function CourseDetail({ course, onBack, onNotif }) {
                         <span className="lesson-arrow">→</span>
                       </div>
                     ))}
-
                     <div className="module-rating">
                       <span className="rating-label">Rate this module:</span>
                       <div className="stars">
                         {[1,2,3,4,5].map(star => (
-                          <span
-                            key={star}
-                            className={`star ${(moduleRatings[mod.title] || 0) >= star ? 'active' : ''}`}
-                            onClick={(e) => { e.stopPropagation(); rateModule(mod.title, star); }}
-                          >★</span>
+                          <span key={star} className={`star ${(moduleRatings[mod.title] || 0) >= star ? 'active' : ''}`}
+                            onClick={(e) => { e.stopPropagation(); rateModule(mod.title, star); }}>★</span>
                         ))}
                       </div>
-                      {moduleRatings[mod.title] && (
-                        <span className="rating-text">{moduleRatings[mod.title]}/5</span>
-                      )}
+                      {moduleRatings[mod.title] && <span className="rating-text">{moduleRatings[mod.title]}/5</span>}
                     </div>
                   </div>
                 )}
@@ -238,9 +257,7 @@ export default function CourseDetail({ course, onBack, onNotif }) {
             <div className="detail-card">
               <div className="detail-card-title">Learning Outcomes</div>
               {course.learningOutcomes.map((o, i) => (
-                <div key={i} className="outcome-item">
-                  <span className="outcome-check">✓</span> {o}
-                </div>
+                <div key={i} className="outcome-item"><span className="outcome-check">✓</span> {o}</div>
               ))}
             </div>
           )}
@@ -289,15 +306,18 @@ export default function CourseDetail({ course, onBack, onNotif }) {
 
               {lessonContent && !loading && isQuiz && (
                 <div className="quiz-container">
+
+                  {/* Score after submit */}
                   {submitted && (
-                    <div className="quiz-score">
-                      <div className="score-number">{getMCQScore()}/10</div>
-                      <div className="score-label">
-                        {getMCQScore() >= 9 ? '🎉 Excellent!' :
-                         getMCQScore() >= 7 ? '👍 Great job!' :
-                         getMCQScore() >= 5 ? '😊 Good effort, keep practicing!' :
-                         '📚 Review the material and try again!'}
+                    <div className="quiz-result-card">
+                      <div className="result-score">{getMCQScore()}<span className="result-total">/10</span></div>
+                      <div className="result-label">
+                        {getMCQScore() === 10 ? '🎉 Perfect Score!' :
+                         getMCQScore() >= 7 ? '👍 Great Job!' :
+                         getMCQScore() >= 5 ? '😊 Good Effort!' :
+                         '📚 Keep Practicing!'}
                       </div>
+                      <div className="result-quote">"{getQuote(getMCQScore())}"</div>
                     </div>
                   )}
 
@@ -315,8 +335,9 @@ export default function CourseDetail({ course, onBack, onNotif }) {
                             <div key={oi} className={cls} onClick={() => handleAnswer(qi, oi)}>
                               <span className="option-letter">{String.fromCharCode(65 + oi)}</span>
                               <span className="option-text">{opt}</span>
-                              {submitted && oi === q.correct && <span className="option-icon correct-icon">✓</span>}
-                              {submitted && answers[qi] === oi && oi !== q.correct && <span className="option-icon wrong-icon">✗</span>}
+                              {answers[qi] === oi && oi === q.correct && <span className="option-icon correct-icon">✓</span>}
+                              {answers[qi] === oi && oi !== q.correct && submitted && <span className="option-icon wrong-icon">✗</span>}
+                              {submitted && oi === q.correct && answers[qi] !== oi && <span className="option-icon correct-icon">✓</span>}
                             </div>
                           );
                         })}
@@ -327,6 +348,7 @@ export default function CourseDetail({ course, onBack, onNotif }) {
                     </div>
                   ))}
 
+                  {/* Short Question */}
                   {lessonContent.shortQuestion && (
                     <div className="short-question-section">
                       <div className="content-section-title">✍️ Short Question (5 Marks)</div>
@@ -375,9 +397,7 @@ export default function CourseDetail({ course, onBack, onNotif }) {
                     <div className="content-section">
                       <div className="content-section-title">🔑 Key Points</div>
                       <ul className="key-points">
-                        {lessonContent.keyPoints.map((point, i) => (
-                          <li key={i}>{point}</li>
-                        ))}
+                        {lessonContent.keyPoints.map((point, i) => <li key={i}>{point}</li>)}
                       </ul>
                     </div>
                   )}
