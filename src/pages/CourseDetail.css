@@ -167,7 +167,11 @@
     transition: var(--trans);
 }
 
-.lesson-row:hover {
+.lesson-row.clickable {
+    cursor: pointer;
+}
+
+.lesson-row.clickable:hover {
     background: var(--surface3);
 }
 
@@ -189,6 +193,95 @@
     font-size: 11px;
     color: var(--text3);
     white-space: nowrap;
+}
+
+.yt-icon {
+    font-size: 11px;
+    color: #FF4444;
+    flex-shrink: 0;
+}
+
+/* Lesson Modal */
+.lesson-modal {
+    background: var(--surface);
+    border: 1px solid rgba(124, 92, 252, 0.3);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    animation: fadeIn 0.2s ease;
+}
+
+.lesson-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.lesson-modal-title {
+    font-size: 16px;
+    font-weight: 700;
+    font-family: var(--font-display);
+    color: var(--text);
+}
+
+.lesson-modal-close {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    width: 30px;
+    height: 30px;
+    color: var(--text2);
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--trans);
+}
+
+.lesson-modal-close:hover {
+    background: var(--surface3);
+    color: var(--text);
+}
+
+.lesson-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.lesson-modal-desc {
+    font-size: 13.5px;
+    color: var(--text2);
+    line-height: 1.6;
+}
+
+.lesson-modal-meta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.yt-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #FF0000;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: var(--font-display);
+    text-decoration: none;
+    transition: var(--trans);
+    width: fit-content;
+}
+
+.yt-btn:hover {
+    background: #CC0000;
+    transform: translateY(-1px);
 }
 
 /* Sidebar cards */
