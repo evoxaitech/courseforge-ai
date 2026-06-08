@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import './Dashboard.css';
- 
+
 function getActivityData(courses) {
   const map = {};
   courses.forEach(c => {
@@ -18,7 +18,7 @@ function getActivityData(courses) {
   }
   return days;
 }
- 
+
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload?.length) {
     return (
@@ -30,7 +30,7 @@ const CustomTooltip = ({ active, payload, label }) => {
   }
   return null;
 };
- 
+
 export default function Dashboard({ courses, onNavigate, onCourseClick }) {
   const stats = [
     { icon: '📚', label: 'Total Courses', value: courses.length, color: 'purple' },
@@ -38,117 +38,138 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
     { icon: '✦', label: 'Total Lessons', value: courses.reduce((a, c) => a + (c.totalLessons || 0), 0), color: 'green' },
     { icon: '⏱', label: 'Total Hours', value: courses.reduce((a, c) => a + (c.totalHours || 0), 0), color: 'amber' },
   ];
- 
+
   const activityData = useMemo(() => getActivityData(courses), [courses]);
- 
+
   return (
     <div className="page fade-in">
- 
-      {/* Hero */}
+
+      {/* Hero - Full width centered */}
       <div className="dash-hero-banner">
         <div className="dash-hero-dots" />
         <div className="dash-hero-glow" />
         <div className="dash-hero-content">
-          <div className="dash-hero-badge">✦ AI-Powered</div>
-          <h1 className="dash-hero-title">Build Courses.<br/>10x Faster.</h1>
+          <div className="dash-hero-badge">✦ AI-POWERED</div>
+          <h1 className="dash-hero-title">Build Courses.<br/><span>10x Faster.</span></h1>
           <p className="dash-hero-sub">Generate complete course curriculums in under 60 seconds using Claude AI.</p>
-          <button className="dash-hero-btn" onClick={() => onNavigate('generator')}>
-            ✦ Generate Course
-          </button>
-        </div>
-        <div className="dash-hero-visual">
-          <div className="hero-card-float hero-card-1"><span>🎓</span><div><div className="hcf-title">Python Basics</div><div className="hcf-sub">12 modules · 40 lessons</div></div></div>
-          <div className="hero-card-float hero-card-2"><span>⚡</span><div><div className="hcf-title">Generated in 48s</div><div className="hcf-sub">Claude AI</div></div></div>
-          <div className="hero-card-float hero-card-3"><span>📊</span><div><div className="hcf-title">Ready to publish</div><div className="hcf-sub">Export anytime</div></div></div>
-        </div>
-      </div>
- 
-      {/* Stats */}
-      <div className="stats-grid">
-        {stats.map((s, i) => (
-          <div key={i} className={`stat-card ${s.color}`}>
-            <div className="stat-icon-wrap">{s.icon}</div>
-            <div className="stat-value">{s.value}</div>
-            <div className="stat-label">{s.label}</div>
+          <div className="dash-hero-buttons">
+            <button className="dash-hero-btn" onClick={() => onNavigate('generator')}>
+              ✦ Generate Course
+            </button>
+            <button className="dash-hero-btn-secondary" onClick={() => onNavigate('courses')}>
+              View Features
+            </button>
           </div>
-        ))}
-      </div>
- 
-      {/* Activity Chart - Full Width */}
-      <div className="dash-chart-card">
-        <div className="dash-card-header">
-          <div className="section-title">Activity (7 days)</div>
-        </div>
-        <div className="chart-wrap">
-          <ResponsiveContainer width="100%" height={140}>
-            <AreaChart data={activityData} margin={{ top: 8, right: 4, left: -28, bottom: 0 }}>
-              <defs>
-                <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#7C5CFC" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#7C5CFC" stopOpacity={0}/>
-                </linearGradient>
-              </defs>
-              <XAxis dataKey="day" tick={{ fill: '#636180', fontSize: 10 }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fill: '#636180', fontSize: 10 }} axisLine={false} tickLine={false} allowDecimals={false} />
-              <Tooltip content={<CustomTooltip />} />
-              <Area type="monotone" dataKey="courses" stroke="#7C5CFC" strokeWidth={2} fill="url(#areaGrad)" dot={{ fill: '#7C5CFC', r: 3 }} activeDot={{ r: 5, fill: '#A78BFA' }} />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
- 
-      {/* Recent Courses */}
-      <div className="dash-section">
-        <div className="dash-section-header">
-          <div className="section-title">Recent Courses</div>
-          {courses.length > 0 && <button className="section-link" onClick={() => onNavigate('courses')}>View all →</button>}
-        </div>
-        {courses.length === 0 ? (
-          <div className="dash-empty">
-            <div className="empty-icon">✦</div>
-            <div className="empty-title">No courses yet</div>
-            <div className="empty-desc">Generate your first AI curriculum!</div>
-            <button className="btn-primary" style={{ marginTop: 16 }} onClick={() => onNavigate('generator')}>✦ Generate Now</button>
+
+          {/* Preview card */}
+          <div className="dash-hero-preview">
+            <div className="preview-icon">🎓</div>
+            <div style={{flex:1}}>
+              <div className="preview-title">Python Basics</div>
+              <div className="preview-sub">12 modules · 40 lessons</div>
+            </div>
+            <div className="preview-badges" style={{marginTop:0, paddingTop:0, borderTop:'none', width:'auto', flexDirection:'column', gap:4}}>
+              <div className="preview-badge-item"><span>⚡</span> Generated in 48s</div>
+              <div className="preview-badge-item"><span>✓</span> Ready to publish</div>
+            </div>
           </div>
-        ) : (
-          <div className="courses-grid">
-            {courses.slice(0, 6).map(c => (
-              <div key={c.id} className="course-card" onClick={() => onCourseClick(c.id)}>
-                <div className="course-card-stripe" />
-                <div className="course-card-body">
-                  <div>
-                    <div className="course-card-title">{c.title}</div>
-                    <div className="course-card-tagline">{c.tagline}</div>
+        </div>
+      </div>
+
+      {/* Main content */}
+      <div className="dash-content">
+
+        {/* Stats */}
+        <div className="stats-grid">
+          {stats.map((s, i) => (
+            <div key={i} className={`stat-card ${s.color}`}>
+              <div className="stat-icon-wrap">{s.icon}</div>
+              <div className="stat-value">{s.value}</div>
+              <div className="stat-label">{s.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Activity Chart */}
+        <div className="dash-chart-card">
+          <div className="dash-card-header">
+            <div className="section-title">Activity (7 days)</div>
+          </div>
+          <div className="chart-wrap">
+            <ResponsiveContainer width="100%" height={140}>
+              <AreaChart data={activityData} margin={{ top: 8, right: 4, left: -28, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#7c3aed" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#7c3aed" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <XAxis dataKey="day" tick={{ fill: 'rgba(255,255,255,0.25)', fontSize: 10 }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fill: 'rgba(255,255,255,0.25)', fontSize: 10 }} axisLine={false} tickLine={false} allowDecimals={false} />
+                <Tooltip content={<CustomTooltip />} />
+                <Area type="monotone" dataKey="courses" stroke="#7c3aed" strokeWidth={2} fill="url(#areaGrad)" dot={{ fill: '#7c3aed', r: 3 }} activeDot={{ r: 5, fill: '#a78bfa' }} />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Recent Courses */}
+        <div className="dash-section">
+          <div className="dash-section-header">
+            <div className="section-title">Recent Courses</div>
+            {courses.length > 0 && <button className="section-link" onClick={() => onNavigate('courses')}>View all →</button>}
+          </div>
+          {courses.length === 0 ? (
+            <div className="dash-empty">
+              <div className="empty-icon">✦</div>
+              <div className="empty-title">No courses yet</div>
+              <div className="empty-desc">Generate your first AI curriculum!</div>
+              <button className="btn-primary" style={{ marginTop: 16 }} onClick={() => onNavigate('generator')}>✦ Generate Now</button>
+            </div>
+          ) : (
+            <div className="courses-grid">
+              {courses.slice(0, 6).map(c => (
+                <div key={c.id} className="course-card" onClick={() => onCourseClick(c.id)}>
+                  <div className="course-card-stripe" />
+                  <div className="course-card-body">
+                    <div>
+                      <div className="course-card-title">{c.title}</div>
+                      <div className="course-card-tagline">{c.tagline}</div>
+                    </div>
+                    <div className="course-card-footer">
+                      {c.totalHours && <span className="tag purple">{c.totalHours}h</span>}
+                      {c.totalLessons && <span className="tag green">{c.totalLessons} lessons</span>}
+                      {c.modules && <span className="tag amber">{c.modules.length} modules</span>}
+                    </div>
                   </div>
-                  <div className="course-card-footer">
-                    {c.totalHours && <span className="tag purple">{c.totalHours}h</span>}
-                    {c.totalLessons && <span className="tag green">{c.totalLessons} lessons</span>}
-                    {c.modules && <span className="tag amber">{c.modules.length} modules</span>}
-                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Coming Soon */}
+        <div className="dash-section">
+          <div className="dash-section-header"><div className="section-title">Coming Soon</div></div>
+          <div className="coming-grid">
+            {[
+              { icon: '🎬', title: 'Video Lessons', desc: 'AI-generated video content for each lesson' },
+              { icon: '🎨', title: 'Animated Explainers', desc: 'Auto-animated visual explainers' },
+              { icon: '👥', title: 'Student Enrollment', desc: 'Invite students and track progress' },
+              { icon: '📱', title: 'Mobile App', desc: 'CourseForge on iOS & Android' },
+            ].map((f, i) => (
+              <div key={i} className="coming-card">
+                <span className="coming-badge">SOON</span>
+                <span className="coming-icon">{f.icon}</span>
+                <div>
+                  <div className="coming-title">{f.title}</div>
+                  <div className="coming-desc">{f.desc}</div>
                 </div>
               </div>
             ))}
           </div>
-        )}
-      </div>
- 
-      {/* Coming Soon */}
-      <div className="dash-section">
-        <div className="dash-section-header"><div className="section-title">Coming Soon</div></div>
-        <div className="coming-grid">
-          {[
-            { icon: '🎬', title: 'Video Lessons', desc: 'AI-generated video content for each lesson' },
-            { icon: '🎨', title: 'Animated Explainers', desc: 'Auto-animated visual explainers' },
-            { icon: '👥', title: 'Student Enrollment', desc: 'Invite students and track progress' },
-            { icon: '📱', title: 'Mobile App', desc: 'CourseForge on iOS & Android' },
-          ].map((f, i) => (
-            <div key={i} className="coming-card">
-              <span className="coming-icon">{f.icon}</span>
-              <div><div className="coming-title">{f.title}</div><div className="coming-desc">{f.desc}</div></div>
-              <span className="coming-badge">SOON</span>
-            </div>
-          ))}
         </div>
+
       </div>
     </div>
   );

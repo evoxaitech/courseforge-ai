@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useCourses } from './hooks/useCourses';
 import { useNotification } from './hooks/useNotification';
 import Navbar from './components/Navbar';
-import Sidebar from './components/Sidebar';
 import Dashboard from './pages/Dashboard';
 import Generator from './pages/Generator';
 import MyCourses from './pages/MyCourses';
@@ -46,22 +45,12 @@ export default function App() {
         totalCredits={25}
         currentView={view}
       />
-      <div className="app-body">
-        <Sidebar
-          currentView={view}
-          onNavigate={navigate}
-          recentCourses={courses.slice(0, 4)}
-          onCourseClick={id => navigate('course-detail', id)}
-          creditsUsed={totalCreditsUsed}
-          onDeleteCourse={deleteCourse}
-        />
-        <main className="app-main">
-          {view === 'dashboard' && <Dashboard courses={courses} onNavigate={navigate} onCourseClick={id => navigate('course-detail', id)} />}
-          {view === 'generator' && <Generator onGenerated={handleGenerated} onNotif={show} />}
-          {view === 'courses' && <MyCourses courses={courses} onCourseClick={id => navigate('course-detail', id)} onDelete={deleteCourse} onNavigate={navigate} onNotif={show} />}
-          {view === 'course-detail' && selected && <CourseDetail course={selected} onBack={() => navigate('courses')} onUpdate={u => updateCourse(selected.id, u)} onNotif={show} />}
-        </main>
-      </div>
+      <main className="app-main">
+        {view === 'dashboard' && <Dashboard courses={courses} onNavigate={navigate} onCourseClick={id => navigate('course-detail', id)} />}
+        {view === 'generator' && <Generator onGenerated={handleGenerated} onNotif={show} />}
+        {view === 'courses' && <MyCourses courses={courses} onCourseClick={id => navigate('course-detail', id)} onDelete={deleteCourse} onNavigate={navigate} onNotif={show} />}
+        {view === 'course-detail' && selected && <CourseDetail course={selected} onBack={() => navigate('courses')} onUpdate={u => updateCourse(selected.id, u)} onNotif={show} />}
+      </main>
       {notif && <Notification notif={notif} />}
     </div>
   );
