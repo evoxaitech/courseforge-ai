@@ -84,14 +84,15 @@
     background: rgba(255, 255, 255, 0.06);
 }
 
+/* No active purple - all grey by default */
 .nav-link-active {
-    background: #7c3aed !important;
-    color: #fff !important;
-    font-weight: 600;
+    background: transparent !important;
+    color: rgba(255, 255, 255, 0.5) !important;
 }
 
 .nav-link-active:hover {
-    background: #6d28d9 !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    color: rgba(255, 255, 255, 0.85) !important;
 }
 
 /* ── Right: Credits + Upgrade ── */
@@ -152,7 +153,6 @@
     box-shadow: 0 4px 16px rgba(124, 58, 237, 0.4);
 }
 
-/* Hide sidebar on new layout - navbar handles nav */
 @media (max-width: 768px) {
     .navbar-center {
         display: none;

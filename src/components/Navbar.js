@@ -7,9 +7,10 @@ export default function Navbar({ onNavigate, creditsUsed = 0, totalCredits = 25,
       <div className="navbar-left">
         <div className="navbar-logo" onClick={() => onNavigate('dashboard')}>
           <span className="logo-icon">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <rect x="2" y="3" width="12" height="10" rx="2" fill="none" stroke="white" strokeWidth="1.8"/>
-              <path d="M2 6h12" stroke="white" strokeWidth="1.5"/>
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <rect x="2" y="3" width="14" height="12" rx="2.5" fill="white" opacity="0.9"/>
+              <rect x="5" y="7" width="8" height="1.5" rx="0.75" fill="#7c3aed"/>
+              <rect x="5" y="10" width="5" height="1.5" rx="0.75" fill="#7c3aed" opacity="0.6"/>
             </svg>
           </span>
           <span className="logo-text">CourseForgeAI</span>
@@ -26,16 +27,16 @@ export default function Navbar({ onNavigate, creditsUsed = 0, totalCredits = 25,
           </svg>
           Dashboard
         </button>
-        <button className="nav-link nav-link-active" onClick={() => onNavigate('generator')}>
+        <button className="nav-link" onClick={() => onNavigate('generator')}>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M7 1L8.5 5.5H13L9.5 8.5L11 13L7 10L3 13L4.5 8.5L1 5.5H5.5L7 1Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+            <path d="M7 1L8.2 4.8H12.5L9.15 7.2L10.35 11L7 8.6L3.65 11L4.85 7.2L1.5 4.8H5.8L7 1Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" fill="none"/>
           </svg>
           Generate Course
         </button>
         <button className="nav-link" onClick={() => onNavigate('courses')}>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <rect x="1" y="2" width="12" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
-            <path d="M5 7L6.5 8.5L9 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M4 7h6M4 9.5h4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
           </svg>
           My Courses
         </button>
