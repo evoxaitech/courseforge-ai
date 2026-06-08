@@ -1,3 +1,7 @@
+button {
+    background: none;
+    color: inherit;
+}
 .app-root {
     display: flex;
     flex-direction: column;
