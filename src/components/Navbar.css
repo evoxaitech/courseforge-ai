@@ -15,8 +15,7 @@
 .navbar-left {
     display: flex;
     align-items: center;
-    flex: 0 0 auto;
-    padding-left: 4px;
+    flex: 1;
 }
 
 .navbar-logo {
@@ -55,7 +54,9 @@
     display: flex;
     align-items: center;
     gap: 2px;
-    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .nav-link {
@@ -93,8 +94,8 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    flex: 0 0 auto;
-    padding-right: 4px;
+    flex: 1;
+    justify-content: flex-end;
 }
 
 .navbar-credits {

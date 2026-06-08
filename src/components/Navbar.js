@@ -1,7 +1,7 @@
 import React from 'react';
 import './Navbar.css';
 
-export default function Navbar({ onNavigate, creditsUsed = 0, totalCredits = 25 }) {
+export default function Navbar({ onNavigate, creditsUsed = 0, totalCredits = 25, currentView }) {
   return (
     <nav className="navbar">
       <div className="navbar-left">
@@ -17,7 +17,7 @@ export default function Navbar({ onNavigate, creditsUsed = 0, totalCredits = 25 
       </div>
 
       <div className="navbar-center">
-        <button className="nav-link" onClick={() => onNavigate('dashboard')}>
+        <button className={`nav-link ${currentView === 'dashboard' ? 'nav-link-active' : ''}`} onClick={() => onNavigate('dashboard')}>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <rect x="1" y="1" width="5.5" height="5.5" rx="1" stroke="currentColor" strokeWidth="1.4"/>
             <rect x="7.5" y="1" width="5.5" height="5.5" rx="1" stroke="currentColor" strokeWidth="1.4"/>
@@ -26,13 +26,13 @@ export default function Navbar({ onNavigate, creditsUsed = 0, totalCredits = 25 
           </svg>
           Dashboard
         </button>
-        <button className="nav-link" onClick={() => onNavigate('generator')}>
+        <button className={`nav-link ${currentView === 'generator' ? 'nav-link-active' : ''}`} onClick={() => onNavigate('generator')}>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M7 1.5L8.5 5.5H12.5L9.5 8L10.5 12L7 9.5L3.5 12L4.5 8L1.5 5.5H5.5L7 1.5Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/>
           </svg>
           Generate Course
         </button>
-        <button className="nav-link" onClick={() => onNavigate('courses')}>
+        <button className={`nav-link ${currentView === 'courses' ? 'nav-link-active' : ''}`} onClick={() => onNavigate('courses')}>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M2 3.5C2 2.67 2.67 2 3.5 2H10.5C11.33 2 12 2.67 12 3.5V11C12 11.55 11.55 12 11 12H3C2.45 12 2 11.55 2 11V3.5Z" stroke="currentColor" strokeWidth="1.4"/>
             <path d="M5 5.5h4M5 8h2.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
