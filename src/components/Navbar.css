@@ -1,11 +1,11 @@
 .navbar {
-    height: 52px;
-    background: rgba(9, 9, 16, 0.92);
-    border-bottom: 1px solid var(--border);
+    height: 56px;
+    background: #0a0a0f;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
+    padding: 0 24px;
     flex-shrink: 0;
     position: sticky;
     top: 0;
@@ -13,68 +13,152 @@
     backdrop-filter: blur(20px);
 }
 
+/* ── Left: Logo ── */
 .navbar-left {
     display: flex;
     align-items: center;
+    min-width: 200px;
 }
 
 .navbar-logo {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 9px;
     cursor: pointer;
-    padding: 4px 8px;
-    border-radius: var(--r-md);
-    transition: var(--trans);
+    padding: 5px 8px;
+    border-radius: 8px;
+    transition: background 0.15s ease;
     margin-left: -8px;
 }
 
 .navbar-logo:hover {
-    background: var(--surface2);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .logo-icon {
-    width: 28px;
-    height: 28px;
-    background: var(--accent);
-    border-radius: var(--r-md);
+    width: 30px;
+    height: 30px;
+    background: #7c3aed;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 13px;
-    color: white;
     flex-shrink: 0;
 }
 
 .logo-text {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 700;
-    color: var(--text);
+    color: #fff;
     letter-spacing: -0.3px;
 }
 
-.logo-badge {
-    font-size: 9px;
-    font-weight: 600;
-    font-family: var(--font-mono);
-    background: rgba(124, 92, 252, 0.15);
-    color: var(--accent3);
-    border: 1px solid rgba(124, 92, 252, 0.2);
-    padding: 1px 6px;
-    border-radius: 4px;
+/* ── Center: Nav Links ── */
+.navbar-center {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: none;
+    background: none;
+    white-space: nowrap;
+}
+
+.nav-link:hover {
+    color: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.nav-link-active {
+    background: #7c3aed !important;
+    color: #fff !important;
+    font-weight: 600;
+}
+
+.nav-link-active:hover {
+    background: #6d28d9 !important;
+}
+
+/* ── Right: Credits + Upgrade ── */
 .navbar-right {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
+    min-width: 200px;
+    justify-content: flex-end;
 }
 
-.navbar-brand {
-    font-size: 10px;
-    font-weight: 500;
-    font-family: var(--font-mono);
-    color: var(--text4);
-    letter-spacing: 1px;
-    text-transform: uppercase;
+.navbar-credits {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+}
+
+.credits-label {
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 400;
+}
+
+.credits-value {
+    color: #fff;
+    font-weight: 700;
+}
+
+.credits-total {
+    color: rgba(255, 255, 255, 0.35);
+    font-weight: 400;
+}
+
+.credits-remaining {
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 12px;
+}
+
+.upgrade-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #7c3aed;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+
+.upgrade-btn:hover {
+    background: #6d28d9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.4);
+}
+
+/* Hide sidebar on new layout - navbar handles nav */
+@media (max-width: 768px) {
+    .navbar-center {
+        display: none;
+    }
+
+    .navbar-credits {
+        display: none;
+    }
 }

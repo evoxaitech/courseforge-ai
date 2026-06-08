@@ -40,7 +40,12 @@ export default function App() {
 
   return (
     <div className="app-root">
-      <Navbar onNavigate={navigate} />
+      <Navbar
+        onNavigate={navigate}
+        creditsUsed={totalCreditsUsed}
+        totalCredits={25}
+        currentView={view}
+      />
       <div className="app-body">
         <Sidebar
           currentView={view}
