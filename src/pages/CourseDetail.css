@@ -82,15 +82,30 @@
     color: var(--accent);
 }
 
-/* ── Hero Section ── */
+/* ── Hero Section ── IMPROVED */
 .detail-hero {
-    background: linear-gradient(135deg, rgba(123, 92, 245, 0.12) 0%, rgba(139, 92, 246, 0.06) 50%, transparent 100%);
-    border: 1px solid rgba(123, 92, 245, 0.2);
+    background:
+        radial-gradient(ellipse 80% 60% at 10% 40%, rgba(123, 92, 245, 0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 90% 20%, rgba(139, 92, 246, 0.12) 0%, transparent 55%),
+        radial-gradient(circle at 50% 100%, rgba(99, 60, 220, 0.08) 0%, transparent 50%),
+        var(--surface);
+    border: 1px solid rgba(123, 92, 245, 0.22);
     border-radius: var(--r-xl);
-    padding: 28px 32px;
+    padding: 32px 36px;
     margin-bottom: 28px;
     position: relative;
     overflow: hidden;
+}
+
+/* Dot pattern overlay */
+.detail-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(123, 92, 245, 0.18) 1px, transparent 1px);
+    background-size: 24px 24px;
+    pointer-events: none;
+    opacity: 0.45;
 }
 
 .detail-hero::before {
@@ -101,6 +116,13 @@
     right: 0;
     height: 2px;
     background: linear-gradient(90deg, var(--accent), var(--accent2), transparent);
+    z-index: 1;
+}
+
+/* Make hero content sit above the dot overlay */
+.detail-hero>* {
+    position: relative;
+    z-index: 2;
 }
 
 .detail-title {
@@ -204,12 +226,38 @@
     gap: 8px;
 }
 
+/* ── Module Item — IMPROVED hover with left border accent ── */
 .module-item {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--r-xl);
     overflow: hidden;
     transition: var(--trans);
+    position: relative;
+}
+
+.module-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--accent), var(--accent2));
+    border-radius: 3px 0 0 3px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.module-item:hover::before,
+.module-item.open::before {
+    opacity: 1;
+}
+
+.module-item:hover {
+    border-color: rgba(123, 92, 245, 0.2);
+    box-shadow: 0 4px 16px rgba(123, 92, 245, 0.08);
+    transform: translateX(2px);
 }
 
 .module-item.open {
@@ -405,11 +453,20 @@
     font-weight: 700;
 }
 
-/* ── Sidebar Cards ── */
+/* ── Sidebar Cards — IMPROVED sticky ── */
 .detail-sidebar {
     display: flex;
     flex-direction: column;
     gap: 14px;
+    position: sticky;
+    top: 24px;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.detail-sidebar::-webkit-scrollbar {
+    display: none;
 }
 
 .detail-card {
