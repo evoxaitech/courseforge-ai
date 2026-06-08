@@ -8,10 +8,8 @@ export default function Navbar({ onNavigate, creditsUsed = 0, totalCredits = 25,
         <div className="navbar-logo" onClick={() => onNavigate('dashboard')}>
           <span className="logo-icon">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <rect x="1" y="1" width="6" height="6" rx="1.5" fill="white"/>
-              <rect x="9" y="1" width="6" height="6" rx="1.5" fill="white" opacity="0.7"/>
-              <rect x="1" y="9" width="6" height="6" rx="1.5" fill="white" opacity="0.7"/>
-              <rect x="9" y="9" width="6" height="6" rx="1.5" fill="white" opacity="0.4"/>
+              <rect x="2" y="3" width="12" height="10" rx="2" fill="none" stroke="white" strokeWidth="1.8"/>
+              <path d="M2 6h12" stroke="white" strokeWidth="1.5"/>
             </svg>
           </span>
           <span className="logo-text">CourseForgeAI</span>
@@ -19,7 +17,7 @@ export default function Navbar({ onNavigate, creditsUsed = 0, totalCredits = 25,
       </div>
 
       <div className="navbar-center">
-        <button className={`nav-link ${currentView === 'dashboard' ? 'nav-link-active' : ''}`} onClick={() => onNavigate('dashboard')}>
+        <button className="nav-link" onClick={() => onNavigate('dashboard')}>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <rect x="1" y="1" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5"/>
             <rect x="8" y="1" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5"/>
@@ -28,13 +26,13 @@ export default function Navbar({ onNavigate, creditsUsed = 0, totalCredits = 25,
           </svg>
           Dashboard
         </button>
-        <button className={`nav-link ${currentView === 'generator' ? 'nav-link-active' : ''}`} onClick={() => onNavigate('generator')}>
+        <button className="nav-link nav-link-active" onClick={() => onNavigate('generator')}>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M7 1L8.5 5.5H13L9.5 8.5L11 13L7 10L3 13L4.5 8.5L1 5.5H5.5L7 1Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
           </svg>
           Generate Course
         </button>
-        <button className={`nav-link ${currentView === 'courses' ? 'nav-link-active' : ''}`} onClick={() => onNavigate('courses')}>
+        <button className="nav-link" onClick={() => onNavigate('courses')}>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <rect x="1" y="2" width="12" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
             <path d="M5 7L6.5 8.5L9 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
