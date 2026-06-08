@@ -8,9 +8,8 @@ export default function Navbar({ onNavigate, creditsUsed = 0, totalCredits = 25,
         <div className="navbar-logo" onClick={() => onNavigate('dashboard')}>
           <span className="logo-icon">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <rect x="2" y="3" width="14" height="12" rx="2.5" fill="white" opacity="0.9"/>
-              <rect x="5" y="7" width="8" height="1.5" rx="0.75" fill="#7c3aed"/>
-              <rect x="5" y="10" width="5" height="1.5" rx="0.75" fill="#7c3aed" opacity="0.6"/>
+              <rect x="2" y="2" width="14" height="11" rx="2" stroke="white" strokeWidth="1.8"/>
+              <path d="M6 16h6M9 13v3" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
             </svg>
           </span>
           <span className="logo-text">CourseForgeAI</span>
