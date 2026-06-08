@@ -1,5 +1,35 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import './Dashboard.css';
+
+function getActivityData(courses) {
+  const map = {};
+  courses.forEach(c => {
+    const d = new Date(c.createdAt);
+    const key = `${d.toLocaleString('default', { month: 'short' })} ${d.getDate()}`;
+    map[key] = (map[key] || 0) + 1;
+  });
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const key = `${d.toLocaleString('default', { month: 'short' })} ${d.getDate()}`;
+    days.push({ day: key, courses: map[key] || 0 });
+  }
+  return days;
+}
+
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload?.length) {
+    return (
+      <div className="chart-tooltip">
+        <div className="chart-tooltip-label">{label}</div>
+        <div className="chart-tooltip-value">{payload[0].value} course{payload[0].value !== 1 ? 's' : ''}</div>
+      </div>
+    );
+  }
+  return null;
+};
 
 export default function Dashboard({ courses, onNavigate, onCourseClick }) {
   const stats = [
@@ -9,11 +39,14 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
     { icon: '⏱', label: 'Total Hours', value: courses.reduce((a, c) => a + (c.totalHours || 0), 0), color: 'amber' },
   ];
 
+  const activityData = useMemo(() => getActivityData(courses), [courses]);
+
   return (
     <div className="page fade-in">
 
-      {/* Hero Banner */}
+      {/* Hero */}
       <div className="dash-hero-banner">
+        <div className="dash-hero-dots" />
         <div className="dash-hero-glow" />
         <div className="dash-hero-content">
           <div className="dash-hero-badge">✦ AI-Powered</div>
@@ -24,27 +57,9 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
           </button>
         </div>
         <div className="dash-hero-visual">
-          <div className="hero-card-float hero-card-1">
-            <span>🎓</span>
-            <div>
-              <div className="hcf-title">Python Basics</div>
-              <div className="hcf-sub">12 modules · 40 lessons</div>
-            </div>
-          </div>
-          <div className="hero-card-float hero-card-2">
-            <span>⚡</span>
-            <div>
-              <div className="hcf-title">Generated in 48s</div>
-              <div className="hcf-sub">Claude AI</div>
-            </div>
-          </div>
-          <div className="hero-card-float hero-card-3">
-            <span>📊</span>
-            <div>
-              <div className="hcf-title">Ready to publish</div>
-              <div className="hcf-sub">Export anytime</div>
-            </div>
-          </div>
+          <div className="hero-card-float hero-card-1"><span>🎓</span><div><div className="hcf-title">Python Basics</div><div className="hcf-sub">12 modules · 40 lessons</div></div></div>
+          <div className="hero-card-float hero-card-2"><span>⚡</span><div><div className="hcf-title">Generated in 48s</div><div className="hcf-sub">Claude AI</div></div></div>
+          <div className="hero-card-float hero-card-3"><span>📊</span><div><div className="hcf-title">Ready to publish</div><div className="hcf-sub">Export anytime</div></div></div>
         </div>
       </div>
 
@@ -59,23 +74,61 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
         ))}
       </div>
 
+      {/* Activity Chart + Recent Courses */}
+      <div className="dash-two-col">
+        {/* Chart */}
+        <div className="dash-chart-card">
+          <div className="dash-card-header">
+            <div className="section-title">Activity (7 days)</div>
+          </div>
+          <div className="chart-wrap">
+            <ResponsiveContainer width="100%" height={160}>
+              <AreaChart data={activityData} margin={{ top: 8, right: 4, left: -28, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#7C5CFC" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#7C5CFC" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <XAxis dataKey="day" tick={{ fill: '#636180', fontSize: 10 }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fill: '#636180', fontSize: 10 }} axisLine={false} tickLine={false} allowDecimals={false} />
+                <Tooltip content={<CustomTooltip />} />
+                <Area type="monotone" dataKey="courses" stroke="#7C5CFC" strokeWidth={2} fill="url(#areaGrad)" dot={{ fill: '#7C5CFC', r: 3 }} activeDot={{ r: 5, fill: '#A78BFA' }} />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="dash-actions-card">
+          <div className="dash-card-header">
+            <div className="section-title">Quick Actions</div>
+          </div>
+          <div className="quick-actions">
+            <button className="quick-action-btn" onClick={() => onNavigate('generator')}>
+              <span className="qa-icon purple">✦</span>
+              <div><div className="qa-title">New Course</div><div className="qa-sub">Generate with AI</div></div>
+            </button>
+            <button className="quick-action-btn" onClick={() => onNavigate('courses')}>
+              <span className="qa-icon blue">▤</span>
+              <div><div className="qa-title">My Courses</div><div className="qa-sub">{courses.length} curriculum{courses.length !== 1 ? 's' : ''}</div></div>
+            </button>
+          </div>
+        </div>
+      </div>
+
       {/* Recent Courses */}
       <div className="dash-section">
         <div className="dash-section-header">
           <div className="section-title">Recent Courses</div>
-          {courses.length > 0 && (
-            <button className="section-link" onClick={() => onNavigate('courses')}>View all →</button>
-          )}
+          {courses.length > 0 && <button className="section-link" onClick={() => onNavigate('courses')}>View all →</button>}
         </div>
-
         {courses.length === 0 ? (
           <div className="dash-empty">
             <div className="empty-icon">✦</div>
             <div className="empty-title">No courses yet</div>
             <div className="empty-desc">Generate your first AI curriculum!</div>
-            <button className="btn-primary" style={{ marginTop: 20 }} onClick={() => onNavigate('generator')}>
-              ✦ Generate Now
-            </button>
+            <button className="btn-primary" style={{ marginTop: 16 }} onClick={() => onNavigate('generator')}>✦ Generate Now</button>
           </div>
         ) : (
           <div className="courses-grid">
@@ -101,9 +154,7 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
 
       {/* Coming Soon */}
       <div className="dash-section">
-        <div className="dash-section-header">
-          <div className="section-title">Coming Soon</div>
-        </div>
+        <div className="dash-section-header"><div className="section-title">Coming Soon</div></div>
         <div className="coming-grid">
           {[
             { icon: '🎬', title: 'Video Lessons', desc: 'AI-generated video content for each lesson' },
@@ -113,10 +164,7 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
           ].map((f, i) => (
             <div key={i} className="coming-card">
               <span className="coming-icon">{f.icon}</span>
-              <div>
-                <div className="coming-title">{f.title}</div>
-                <div className="coming-desc">{f.desc}</div>
-              </div>
+              <div><div className="coming-title">{f.title}</div><div className="coming-desc">{f.desc}</div></div>
               <span className="coming-badge">SOON</span>
             </div>
           ))}

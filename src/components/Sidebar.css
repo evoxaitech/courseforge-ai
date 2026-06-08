@@ -1,5 +1,5 @@
 .sidebar {
-    width: 232px;
+    width: 220px;
     flex-shrink: 0;
     background: var(--surface);
     border-right: 1px solid var(--border);
@@ -10,37 +10,36 @@
 }
 
 .sidebar-nav {
-    padding: 20px 12px 10px;
+    padding: 16px 10px 8px;
 }
 
 .sidebar-label {
-    font-size: 9.5px;
-    font-weight: 700;
+    font-size: 9px;
+    font-weight: 600;
     font-family: var(--font-mono);
-    letter-spacing: 1.6px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--text4);
-    padding: 0 10px;
-    margin-bottom: 8px;
+    padding: 0 8px;
+    margin-bottom: 4px;
 }
 
 .sidebar-item {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     width: 100%;
-    padding: 9px 12px;
-    border-radius: var(--r-lg);
-    border: 1px solid transparent;
+    padding: 7px 10px;
+    border-radius: var(--r-md);
+    border: none;
     background: transparent;
     cursor: pointer;
     font-size: 13px;
-    font-family: var(--font-body);
     font-weight: 500;
     color: var(--text3);
     text-align: left;
     transition: var(--trans);
-    margin-bottom: 2px;
+    margin-bottom: 1px;
     position: relative;
 }
 
@@ -50,26 +49,25 @@
 }
 
 .sidebar-item.active {
-    background: rgba(123, 92, 245, 0.1);
-    color: var(--accent3);
-    border-color: rgba(123, 92, 245, 0.18);
+    background: rgba(124, 92, 252, 0.09);
+    color: var(--text);
     font-weight: 600;
 }
 
 .sidebar-item.active::before {
     content: '';
     position: absolute;
-    left: -1px;
-    top: 20%;
-    height: 60%;
-    width: 3px;
-    background: linear-gradient(180deg, var(--accent), var(--accent2));
-    border-radius: 0 3px 3px 0;
+    left: 0;
+    top: 25%;
+    height: 50%;
+    width: 2px;
+    background: var(--accent);
+    border-radius: 0 2px 2px 0;
 }
 
 .sidebar-item-icon {
-    font-size: 14px;
-    width: 18px;
+    font-size: 13px;
+    width: 16px;
     text-align: center;
     flex-shrink: 0;
     opacity: 0.7;
@@ -82,13 +80,13 @@
 .sidebar-recent {
     flex: 1;
     border-top: 1px solid var(--border);
-    padding: 16px 12px 8px;
+    padding: 12px 10px 8px;
 }
 
 .course-pill-wrapper {
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: 2px;
     border-radius: var(--r-md);
     transition: var(--trans);
 }
@@ -100,20 +98,18 @@
 .course-pill {
     display: flex;
     align-items: center;
-    gap: 9px;
+    gap: 8px;
     flex: 1;
-    padding: 7px 10px;
+    padding: 6px 8px;
     border-radius: var(--r-md);
     border: none;
     background: transparent;
     cursor: pointer;
-    transition: var(--trans);
-    margin-bottom: 1px;
 }
 
 .course-dot {
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
     flex-shrink: 0;
 }
@@ -124,7 +120,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .course-pill-wrapper:hover .course-pill-title {
@@ -135,14 +131,14 @@
     background: transparent;
     border: none;
     color: var(--text4);
-    font-size: 11px;
+    font-size: 10px;
     cursor: pointer;
-    padding: 4px 6px;
+    padding: 3px 5px;
     border-radius: var(--r-sm);
     opacity: 0;
     transition: var(--trans);
     flex-shrink: 0;
-    margin-right: 4px;
+    margin-right: 3px;
 }
 
 .course-pill-wrapper:hover .course-delete-btn {
@@ -155,67 +151,63 @@
 }
 
 .sidebar-footer {
-    padding: 14px;
+    padding: 12px;
     border-top: 1px solid var(--border);
-    background: var(--surface);
-    position: sticky;
-    bottom: 0;
 }
 
 .credits-box {
     background: var(--surface2);
-    border: 1px solid var(--border2);
+    border: 1px solid var(--border);
     border-radius: var(--r-lg);
-    padding: 12px 14px;
+    padding: 10px 12px;
 }
 
 .usage-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 9px;
+    margin-bottom: 8px;
 }
 
 .usage-label {
-    font-size: 11.5px;
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 500;
     color: var(--text3);
 }
 
 .usage-value {
-    font-size: 11.5px;
+    font-size: 11px;
     color: var(--accent2);
     font-family: var(--font-mono);
     font-weight: 600;
 }
 
 .usage-track {
-    height: 4px;
+    height: 3px;
     background: var(--surface3);
-    border-radius: 4px;
+    border-radius: 3px;
     overflow: hidden;
-    margin-bottom: 9px;
+    margin-bottom: 8px;
 }
 
 .usage-fill {
     height: 100%;
     background: linear-gradient(90deg, var(--accent), var(--accent2));
-    border-radius: 4px;
-    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 0 8px rgba(123, 92, 245, 0.5);
+    border-radius: 3px;
+    transition: width 0.5s ease;
 }
 
 .usage-sub {
     display: flex;
     justify-content: space-between;
-    font-size: 11px;
+    font-size: 10.5px;
     color: var(--text4);
 }
 
 .upgrade-link {
     background: none;
     border: none;
-    font-size: 11px;
+    font-size: 10.5px;
     color: var(--accent2);
     cursor: pointer;
     padding: 0;

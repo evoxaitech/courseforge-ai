@@ -16,9 +16,6 @@
     overflow-y: auto;
     overflow-x: hidden;
     background: var(--bg);
-    background-image:
-        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(123, 92, 245, 0.07), transparent),
-        radial-gradient(ellipse 40% 30% at 80% 80%, rgba(58, 175, 232, 0.04), transparent);
 }
 
 /* API Banner */
@@ -26,8 +23,8 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(123, 92, 245, 0.05);
-    border-bottom: 1px solid rgba(123, 92, 245, 0.1);
+    background: rgba(124, 92, 252, 0.05);
+    border-bottom: 1px solid rgba(124, 92, 252, 0.1);
     padding: 9px 24px;
     font-size: 13px;
     flex-shrink: 0;
@@ -68,10 +65,9 @@
 
 .banner-label {
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--accent2);
     font-family: var(--font-mono);
-    letter-spacing: 0.5px;
 }
 
 .banner-ok {
@@ -82,15 +78,15 @@
 
 /* Page */
 .page {
-    padding: 32px 36px 56px;
+    padding: 28px 32px 56px;
     max-width: 1140px;
-    animation: pageIn 0.3s ease;
+    animation: pageIn 0.25s ease;
 }
 
 @keyframes pageIn {
     from {
         opacity: 0;
-        transform: translateY(8px);
+        transform: translateY(6px);
     }
 
     to {
@@ -100,43 +96,43 @@
 }
 
 .page-header {
-    margin-bottom: 28px;
+    margin-bottom: 24px;
 }
 
 .page-title {
-    font-size: 22px;
-    font-weight: 800;
+    font-size: 20px;
+    font-weight: 700;
     color: var(--text);
-    letter-spacing: -0.5px;
-    margin-bottom: 5px;
-    line-height: 1.2;
+    letter-spacing: -0.4px;
+    margin-bottom: 4px;
 }
 
 .page-subtitle {
-    font-size: 13.5px;
+    font-size: 13px;
     color: var(--text3);
 }
 
 /* Buttons */
 .btn-primary {
-    background: linear-gradient(135deg, var(--accent) 0%, #9B6BFF 100%);
+    background: var(--accent);
     color: #fff;
     border: none;
-    padding: 10px 22px;
+    padding: 9px 18px;
     border-radius: var(--r-lg);
     font-size: 13px;
     font-weight: 600;
     display: inline-flex;
     align-items: center;
-    gap: 7px;
+    gap: 6px;
     transition: var(--trans);
     cursor: pointer;
-    box-shadow: 0 2px 14px rgba(123, 92, 245, 0.3);
+    box-shadow: 0 1px 8px rgba(124, 92, 252, 0.3);
 }
 
 .btn-primary:hover {
+    background: var(--accent-h);
+    box-shadow: 0 4px 16px rgba(124, 92, 252, 0.4);
     transform: translateY(-1px);
-    box-shadow: 0 6px 24px rgba(123, 92, 245, 0.4);
 }
 
 .btn-primary:active {
@@ -144,7 +140,7 @@
 }
 
 .btn-primary:disabled {
-    opacity: 0.45;
+    opacity: 0.4;
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
@@ -154,13 +150,13 @@
     background: var(--surface2);
     color: var(--text2);
     border: 1px solid var(--border2);
-    padding: 10px 20px;
+    padding: 9px 18px;
     border-radius: var(--r-lg);
     font-size: 13px;
     font-weight: 500;
     display: inline-flex;
     align-items: center;
-    gap: 7px;
+    gap: 6px;
     transition: var(--trans);
 }
 
@@ -173,58 +169,59 @@
 /* Tags */
 .tag {
     font-size: 11px;
-    font-weight: 600;
-    padding: 3px 9px;
-    border-radius: var(--r-sm);
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 20px;
     font-family: var(--font-mono);
+    letter-spacing: 0.2px;
 }
 
 .tag.purple {
-    background: rgba(123, 92, 245, 0.1);
+    background: rgba(124, 92, 252, 0.1);
     color: var(--accent3);
-    border: 1px solid rgba(123, 92, 245, 0.18);
+    border: 1px solid rgba(124, 92, 252, 0.18);
 }
 
 .tag.green {
     background: var(--green-bg);
     color: var(--green);
-    border: 1px solid rgba(14, 207, 150, 0.15);
+    border: 1px solid rgba(16, 217, 160, 0.15);
 }
 
 .tag.amber {
     background: var(--amber-bg);
     color: var(--amber);
-    border: 1px solid rgba(240, 146, 10, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.15);
 }
 
 .tag.blue {
     background: var(--blue-bg);
     color: var(--blue);
-    border: 1px solid rgba(58, 175, 232, 0.15);
+    border: 1px solid rgba(56, 189, 248, 0.15);
 }
 
 /* Form */
 .form-group {
-    margin-bottom: 18px;
+    margin-bottom: 16px;
 }
 
 .form-label {
     display: block;
     font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.8px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
     text-transform: uppercase;
     color: var(--text3);
-    margin-bottom: 7px;
+    margin-bottom: 6px;
 }
 
 .form-input {
     width: 100%;
     background: var(--surface2);
-    border: 1px solid var(--border2);
+    border: 1px solid var(--border);
     border-radius: var(--r-lg);
-    padding: 10px 14px;
-    font-size: 14px;
+    padding: 9px 12px;
+    font-size: 13.5px;
     color: var(--text);
     outline: none;
     transition: var(--trans);
@@ -233,7 +230,6 @@
 .form-input:focus {
     border-color: var(--accent);
     box-shadow: 0 0 0 3px var(--accent-glow2);
-    background: var(--surface3);
 }
 
 .form-input::placeholder {
@@ -254,8 +250,8 @@ textarea.form-input {
 }
 
 .chip {
-    padding: 5px 13px;
-    border-radius: var(--r-md);
+    padding: 4px 12px;
+    border-radius: 20px;
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
@@ -272,8 +268,8 @@ textarea.form-input {
 }
 
 .chip.active {
-    background: rgba(123, 92, 245, 0.1);
-    border-color: rgba(123, 92, 245, 0.3);
+    background: rgba(124, 92, 252, 0.1);
+    border-color: rgba(124, 92, 252, 0.3);
     color: var(--accent3);
 }
 
@@ -288,16 +284,16 @@ textarea.form-input {
 }
 
 .empty-icon {
-    font-size: 40px;
-    margin-bottom: 16px;
+    font-size: 36px;
+    margin-bottom: 14px;
     opacity: 0.2;
 }
 
 .empty-title {
-    font-size: 15px;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 600;
     color: var(--text2);
-    margin-bottom: 6px;
+    margin-bottom: 5px;
 }
 
 .empty-desc {
@@ -307,12 +303,12 @@ textarea.form-input {
 
 /* Spinner */
 .spinner {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
     border: 2px solid var(--border2);
     border-top-color: var(--accent);
     border-radius: 50%;
-    animation: spin 0.65s linear infinite;
+    animation: spin 0.6s linear infinite;
 }
 
 @keyframes spin {
@@ -326,7 +322,7 @@ textarea.form-input {
     font-size: 10px;
     font-weight: 600;
     padding: 2px 7px;
-    border-radius: 5px;
+    border-radius: 4px;
     font-family: var(--font-mono);
 }
 
@@ -341,7 +337,7 @@ textarea.form-input {
 }
 
 .lesson-type.assignment {
-    background: rgba(123, 92, 245, 0.1);
+    background: rgba(124, 92, 252, 0.1);
     color: var(--accent3);
 }
 
