@@ -4,7 +4,6 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.07);
     display: flex;
     align-items: center;
-    justify-content: space-between;
     padding: 0 24px;
     flex-shrink: 0;
     position: sticky;
@@ -13,11 +12,10 @@
     backdrop-filter: blur(20px);
 }
 
-/* ── Left: Logo ── */
 .navbar-left {
     display: flex;
     align-items: center;
-    min-width: 200px;
+    flex: 0 0 auto;
 }
 
 .navbar-logo {
@@ -28,7 +26,6 @@
     padding: 5px 8px;
     border-radius: 8px;
     transition: background 0.15s ease;
-    margin-left: -8px;
 }
 
 .navbar-logo:hover {
@@ -53,14 +50,11 @@
     letter-spacing: -0.3px;
 }
 
-/* ── Center: Nav Links ── */
 .navbar-center {
     display: flex;
     align-items: center;
     gap: 2px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    margin: 0 auto;
 }
 
 .nav-link {
@@ -84,13 +78,11 @@
     background: rgba(255, 255, 255, 0.06);
 }
 
-/* ── Right: Credits + Upgrade ── */
 .navbar-right {
     display: flex;
     align-items: center;
     gap: 10px;
-    min-width: 200px;
-    justify-content: flex-end;
+    flex: 0 0 auto;
 }
 
 .navbar-credits {

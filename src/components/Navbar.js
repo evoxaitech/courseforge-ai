@@ -19,23 +19,23 @@ export default function Navbar({ onNavigate, creditsUsed = 0, totalCredits = 25 
       <div className="navbar-center">
         <button className="nav-link" onClick={() => onNavigate('dashboard')}>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <rect x="1" y="1" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5"/>
-            <rect x="8" y="1" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5"/>
-            <rect x="1" y="8" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5"/>
-            <rect x="8" y="8" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5"/>
+            <rect x="1" y="1" width="5.5" height="5.5" rx="1" stroke="currentColor" strokeWidth="1.4"/>
+            <rect x="7.5" y="1" width="5.5" height="5.5" rx="1" stroke="currentColor" strokeWidth="1.4"/>
+            <rect x="1" y="7.5" width="5.5" height="5.5" rx="1" stroke="currentColor" strokeWidth="1.4"/>
+            <rect x="7.5" y="7.5" width="5.5" height="5.5" rx="1" stroke="currentColor" strokeWidth="1.4"/>
           </svg>
           Dashboard
         </button>
         <button className="nav-link" onClick={() => onNavigate('generator')}>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M7 1L8.2 4.8H12.5L9.15 7.2L10.35 11L7 8.6L3.65 11L4.85 7.2L1.5 4.8H5.8L7 1Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" fill="none"/>
+            <path d="M7 1.5L8.5 5.5H12.5L9.5 8L10.5 12L7 9.5L3.5 12L4.5 8L1.5 5.5H5.5L7 1.5Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/>
           </svg>
           Generate Course
         </button>
         <button className="nav-link" onClick={() => onNavigate('courses')}>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <rect x="1" y="2" width="12" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
-            <path d="M4 7h6M4 9.5h4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+            <path d="M2 3.5C2 2.67 2.67 2 3.5 2H10.5C11.33 2 12 2.67 12 3.5V11C12 11.55 11.55 12 11 12H3C2.45 12 2 11.55 2 11V3.5Z" stroke="currentColor" strokeWidth="1.4"/>
+            <path d="M5 5.5h4M5 8h2.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
           </svg>
           My Courses
         </button>
