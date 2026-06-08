@@ -74,46 +74,26 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
         ))}
       </div>
 
-      {/* Activity Chart + Recent Courses */}
-      <div className="dash-two-col">
-        {/* Chart */}
-        <div className="dash-chart-card">
-          <div className="dash-card-header">
-            <div className="section-title">Activity (7 days)</div>
-          </div>
-          <div className="chart-wrap">
-            <ResponsiveContainer width="100%" height={160}>
-              <AreaChart data={activityData} margin={{ top: 8, right: 4, left: -28, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#7C5CFC" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#7C5CFC" stopOpacity={0}/>
-                  </linearGradient>
-                </defs>
-                <XAxis dataKey="day" tick={{ fill: '#636180', fontSize: 10 }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fill: '#636180', fontSize: 10 }} axisLine={false} tickLine={false} allowDecimals={false} />
-                <Tooltip content={<CustomTooltip />} />
-                <Area type="monotone" dataKey="courses" stroke="#7C5CFC" strokeWidth={2} fill="url(#areaGrad)" dot={{ fill: '#7C5CFC', r: 3 }} activeDot={{ r: 5, fill: '#A78BFA' }} />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
+      {/* Activity Chart */}
+      <div className="dash-chart-card" style={{ marginBottom: 20 }}>
+        <div className="dash-card-header">
+          <div className="section-title">Activity (7 days)</div>
         </div>
-
-        {/* Quick Actions */}
-        <div className="dash-actions-card">
-          <div className="dash-card-header">
-            <div className="section-title">Quick Actions</div>
-          </div>
-          <div className="quick-actions">
-            <button className="quick-action-btn" onClick={() => onNavigate('generator')}>
-              <span className="qa-icon purple">✦</span>
-              <div><div className="qa-title">New Course</div><div className="qa-sub">Generate with AI</div></div>
-            </button>
-            <button className="quick-action-btn" onClick={() => onNavigate('courses')}>
-              <span className="qa-icon blue">▤</span>
-              <div><div className="qa-title">My Courses</div><div className="qa-sub">{courses.length} curriculum{courses.length !== 1 ? 's' : ''}</div></div>
-            </button>
-          </div>
+        <div className="chart-wrap">
+          <ResponsiveContainer width="100%" height={140}>
+            <AreaChart data={activityData} margin={{ top: 8, right: 8, left: -28, bottom: 0 }}>
+              <defs>
+                <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#7C5CFC" stopOpacity={0.25}/>
+                  <stop offset="95%" stopColor="#7C5CFC" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <XAxis dataKey="day" tick={{ fill: '#636180', fontSize: 10 }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fill: '#636180', fontSize: 10 }} axisLine={false} tickLine={false} allowDecimals={false} />
+              <Tooltip content={<CustomTooltip />} />
+              <Area type="monotone" dataKey="courses" stroke="#7C5CFC" strokeWidth={2} fill="url(#areaGrad)" dot={{ fill: '#7C5CFC', r: 3, strokeWidth: 0 }} activeDot={{ r: 5, fill: '#A78BFA', strokeWidth: 0 }} />
+            </AreaChart>
+          </ResponsiveContainer>
         </div>
       </div>
 
