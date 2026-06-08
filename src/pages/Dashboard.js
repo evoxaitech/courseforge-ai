@@ -1,4 +1,3 @@
-d · JS
 import React, { useMemo } from 'react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import './Dashboard.css';
