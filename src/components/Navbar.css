@@ -84,22 +84,11 @@
     background: rgba(255, 255, 255, 0.06);
 }
 
-/* No active purple - all grey by default */
-.nav-link-active {
-    background: transparent !important;
-    color: rgba(255, 255, 255, 0.5) !important;
-}
-
-.nav-link-active:hover {
-    background: rgba(255, 255, 255, 0.06) !important;
-    color: rgba(255, 255, 255, 0.85) !important;
-}
-
 /* ── Right: Credits + Upgrade ── */
 .navbar-right {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 10px;
     min-width: 200px;
     justify-content: flex-end;
 }
@@ -109,6 +98,10 @@
     align-items: center;
     gap: 6px;
     font-size: 12.5px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.04);
 }
 
 .credits-label {

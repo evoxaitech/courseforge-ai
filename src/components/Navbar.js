@@ -1,7 +1,7 @@
 import React from 'react';
 import './Navbar.css';
 
-export default function Navbar({ onNavigate, creditsUsed = 0, totalCredits = 25, currentView }) {
+export default function Navbar({ onNavigate, creditsUsed = 0, totalCredits = 25 }) {
   return (
     <nav className="navbar">
       <div className="navbar-left">
