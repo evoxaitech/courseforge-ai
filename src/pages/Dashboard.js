@@ -44,7 +44,7 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
   return (
     <div className="page fade-in">
 
-      {/* Hero - Full width centered */}
+      {/* Hero */}
       <div className="dash-hero-banner">
         <div className="dash-hero-dots" />
         <div className="dash-hero-glow" />
@@ -53,30 +53,29 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
           <h1 className="dash-hero-title">Build Courses.<br/><span>10x Faster.</span></h1>
           <p className="dash-hero-sub">Generate complete course curriculums in under 60 seconds using Claude AI.</p>
           <div className="dash-hero-buttons">
-            <button className="dash-hero-btn" onClick={() => onNavigate('generator')}>
-              ✦ Generate Course
-            </button>
-            <button className="dash-hero-btn-secondary" onClick={() => onNavigate('courses')}>
-              View Features
-            </button>
+            <button className="dash-hero-btn" onClick={() => onNavigate('generator')}>✦ Generate Course</button>
+            <button className="dash-hero-btn-secondary" onClick={() => onNavigate('courses')}>View Features</button>
           </div>
 
-          {/* Preview card */}
+          {/* Preview Card */}
           <div className="dash-hero-preview">
-            <div className="preview-icon">🎓</div>
-            <div style={{flex:1}}>
-              <div className="preview-title">Python Basics</div>
-              <div className="preview-sub">12 modules · 40 lessons</div>
+            <div className="preview-top">
+              <div className="preview-icon">🎓</div>
+              <div>
+                <div className="preview-title">Python Basics</div>
+                <div className="preview-sub">12 modules · 40 lessons</div>
+              </div>
             </div>
-            <div className="preview-badges" style={{marginTop:0, paddingTop:0, borderTop:'none', width:'auto', flexDirection:'column', gap:4}}>
-              <div className="preview-badge-item"><span>⚡</span> Generated in 48s</div>
-              <div className="preview-badge-item"><span>✓</span> Ready to publish</div>
+            <div className="preview-badges">
+              <div className="preview-badge-item"><span style={{color:'#a78bfa'}}>⚡</span> Generated in 48s</div>
+              <div className="preview-badge-item"><span style={{color:'#a78bfa'}}>🤖</span> Claude AI</div>
+              <div className="preview-badge-item"><span style={{color:'#10d9a0'}}>✓</span> Ready to publish</div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Main content */}
+      {/* Main Content */}
       <div className="dash-content">
 
         {/* Stats */}
@@ -84,8 +83,10 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
           {stats.map((s, i) => (
             <div key={i} className={`stat-card ${s.color}`}>
               <div className="stat-icon-wrap">{s.icon}</div>
-              <div className="stat-value">{s.value}</div>
-              <div className="stat-label">{s.label}</div>
+              <div className="stat-info">
+                <div className="stat-value">{s.value}{s.color === 'amber' ? 'h' : ''}</div>
+                <div className="stat-label">{s.label}</div>
+              </div>
             </div>
           ))}
         </div>
@@ -149,8 +150,10 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
         </div>
 
         {/* Coming Soon */}
-        <div className="dash-section">
-          <div className="dash-section-header"><div className="section-title">Coming Soon</div></div>
+        <div className="coming-soon-section">
+          <div className="coming-soon-badge">COMING SOON</div>
+          <div className="coming-soon-title">What's Next</div>
+          <div className="coming-soon-sub">Exciting new features coming to enhance your course creation experience.</div>
           <div className="coming-grid">
             {[
               { icon: '🎬', title: 'Video Lessons', desc: 'AI-generated video content for each lesson' },
@@ -160,17 +163,21 @@ export default function Dashboard({ courses, onNavigate, onCourseClick }) {
             ].map((f, i) => (
               <div key={i} className="coming-card">
                 <span className="coming-badge">SOON</span>
-                <span className="coming-icon">{f.icon}</span>
-                <div>
-                  <div className="coming-title">{f.title}</div>
-                  <div className="coming-desc">{f.desc}</div>
-                </div>
+                <div className="coming-icon">{f.icon}</div>
+                <div className="coming-title">{f.title}</div>
+                <div className="coming-desc">{f.desc}</div>
               </div>
             ))}
           </div>
         </div>
 
       </div>
+
+      {/* Footer */}
+      <div className="dash-footer">
+        <span>© 2024 CourseForgeAI by EVOX AI TECH</span>
+      </div>
+
     </div>
   );
 }
